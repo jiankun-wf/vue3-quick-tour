@@ -73,3 +73,8 @@ export interface TourResolverCoreArgument {
 export interface MaskCreateProps {
     zIndex?: string | number;
 }
+
+export interface DialogStyleProps {
+    zIndex?: string | number;
+    classPrefix: string;
+}

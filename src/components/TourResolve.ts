@@ -3,7 +3,7 @@ import { unref } from "vue";
 import { deepMerge, isFunction, noMinusNumber, outSideOfStep } from "./utils";
 
 // types
-import { MaskRectReactive, Nullable, ScreenRect, TourResolverCoreArgument, TragetRect } from "./type";
+import { MaskRectReactive, Nullable, ScreenRect, TourRect, TourResolverCoreArgument, TragetRect } from "./type";
 
 // 设置 Rect、暴露step-change
 export const useTourTransition = (args: TourResolverCoreArgument) => {
@@ -38,9 +38,12 @@ export const useTourTransition = (args: TourResolverCoreArgument) => {
     // 上下的间距
     const rectPadding = typeof padding === 'number' ? { x: padding, y: padding } : padding;
     const { x, y } = rectPadding;
+    // 没有el 时， 此步默认为全屏居中引导框
     if (isFunction(el)) {
       const element = el();
       const _targetRect = element.getBoundingClientRect();
+
+      // 设置目标源rect
       targetRect = {
         left: _targetRect.left,
         top: _targetRect.top,
@@ -49,6 +52,7 @@ export const useTourTransition = (args: TourResolverCoreArgument) => {
         right: window.innerWidth - _targetRect.left - _targetRect.width,
         bottom: window.innerWidth - _targetRect.left - _targetRect.width,
       };
+      // 设置遮罩rect 
       maskRect = {
         center: {
           top: getRealExtent(targetRect.top, y, "minus"),
@@ -166,5 +170,5 @@ export const useTourTransition = (args: TourResolverCoreArgument) => {
     result && emit("finish");
   };
 
-  return { next, prev, last, load: setRect, getCurrentStep };
+  return { next, prev, last, load: setRect, getCurrentStep, changeStep };
 };

@@ -6,11 +6,12 @@ import {
   watch,
   Transition,
   reactive,
-  Fragment,
   Teleport,
   CSSProperties,
   computed,
   renderSlot,
+  onMounted,
+  onUnmounted,
 } from "vue";
 
 // mask
@@ -24,9 +25,14 @@ import {
   type Nullable,
   TourStep,
 } from "./type";
-
+// utils
 import { useTourTransition } from "./TourResolve";
 import { isObject } from "./utils";
+// style render
+import { createDialogStyle } from "./style";
+// icon svg
+import close from "../assets/close.svg";
+import { DialogCloseSvg } from "./TourDialogClose";
 
 export const Tour = defineComponent({
   name: "TourQuick",
@@ -34,6 +40,10 @@ export const Tour = defineComponent({
     steps: {
       type: Array as PropType<Array<TourStep>>,
       default: () => [],
+    },
+    classPrefix: {
+      type: String as PropType<string>,
+      default: "quick",
     },
     mask: {
       type: Boolean as PropType<boolean>,
@@ -67,6 +77,10 @@ export const Tour = defineComponent({
       type: String as PropType<string>,
       default: undefined,
     },
+    dialogShowClose: {
+      type: Boolean as PropType<boolean>,
+      default: true,
+    },
   },
   emits: [
     "update:current",
@@ -80,6 +94,7 @@ export const Tour = defineComponent({
     "prev",
   ],
   setup(props, { emit, expose, slots }) {
+    const id = `${Math.random().toString(16).slice(2)}`;
     const show = ref(props.show);
     const current = ref(props.current || 0);
 
@@ -95,7 +110,7 @@ export const Tour = defineComponent({
       center: { left: 0, top: 0, width: 0, height: 0 },
     });
 
-    const { next, prev, last, load } = useTourTransition({
+    const { next, prev, last, load, changeStep } = useTourTransition({
       steps: props.steps,
       emit: emit,
       padding: props.padding,
@@ -105,12 +120,22 @@ export const Tour = defineComponent({
       screenRect,
       arrowRect,
     });
+    const { mount, unMount } = createDialogStyle(id, {
+      classPrefix: props.classPrefix,
+      zIndex: Number(props.maskZIndex) + 1,
+    });
 
-    const openTour = (val: boolean) => {
-      show.value = val;
+    const openTour = () => {
+      show.value = true;
       load(unref(current));
-      emit("update:show", val);
+      emit("update:show", true);
       emit("open");
+    };
+
+    const closeTour = () => {
+      show.value = false;
+      emit("update:show", false);
+      emit("close");
     };
 
     // 获取当前步骤信息
@@ -143,9 +168,24 @@ export const Tour = defineComponent({
     watch(
       () => props.show,
       (val) => {
-        openTour(val);
+        val ? openTour() : closeTour();
       }
     );
+
+    watch(
+      () => props.current,
+      (val, oldVal) => {
+        changeStep(val);
+      }
+    );
+
+    onMounted(() => {
+      mount();
+    });
+
+    onUnmounted(() => {
+      unMount();
+    });
 
     expose({
       prev,
@@ -154,20 +194,65 @@ export const Tour = defineComponent({
     });
 
     return () => (
-      <Fragment>
+      <div>
         <Teleport to="body">
           {unref(show) && (
             <div>
-              <div class="quick-tour-dialog">
+              <div
+                class={`${props.classPrefix}-tour-dialog_${id}`}
+                style={{
+                  top: unref(screenRect)?.top,
+                  left: unref(screenRect)?.left,
+                }}
+              >
                 {slots.default ? (
-                  renderSlot(slots, "default")
+                  renderSlot(slots, "default", {
+                    close: closeTour.bind(null),
+                    current: unref(current),
+                    currentStep: unref(getCurrentStep),
+                    next,
+                    prev,
+                    last,
+                    steps: props.steps,
+                  })
                 ) : (
-                  <div class="quick-tour-content">
-                    <div class="quick-tour-inner"></div>
+                  <div class={`${props.classPrefix}-tour-content_${id}`}>
+                    {props.arrow && (
+                      <div
+                        class={`${props.classPrefix}-tour-arrow_${id}`}
+                      ></div>
+                    )}
+                    <div class={`${props.classPrefix}-tour-inner_${id}`}>
+                      {slots.close ? (
+                        renderSlot(slots, "close", {
+                          close: closeTour.bind(null),
+                          current: unref(current),
+                          currentStep: unref(getCurrentStep),
+                        })
+                      ) : (
+                        <span
+                          class={`${props.classPrefix}-tour-close_${id}`}
+                          role="img"
+                          title="关闭"
+                        >
+                          <DialogCloseSvg onClick={closeTour} />
+                        </span>
+                      )}
+                      <div class={`${props.classPrefix}-tour-header_${id}`}>
+                        {slots.title ? (
+                          renderSlot(slots, "title", {
+                            currentStep: unref(getCurrentStep),
+                          })
+                        ) : (
+                          <span class={`${props.classPrefix}-tour-title_${id}`}>
+                            {unref(getCurrentStep)?.title}
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
-              {props.arrow && <div class="quick-tour-arrow"></div>}
             </div>
           )}
         </Teleport>
@@ -183,7 +268,7 @@ export const Tour = defineComponent({
             />
           )}
         </Transition>
-      </Fragment>
+      </div>
     );
   },
 });
