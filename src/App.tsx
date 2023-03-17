@@ -7,21 +7,35 @@ import { TourStep } from "./components/type";
 const steps: TourStep[] = [
   {
     el: () => document.getElementById("info-btn") as HTMLElement,
+    title: '第一步来个rap',
+    message: '你是第一步',
+    mask: {
+      color: "rgba(0, 0, 0, .5)",
+    },
   },
   {
     el: () => document.getElementById("success-btn") as HTMLElement,
+    title: '第二步来首歌',
+    message: '第二步',
     mask: {
-      color: "rgba(80, 255, 255, .4)",
-      style: {
-        boxShadow: "inset 0 0 15px #333",
-      },
+      color: "rgba(0, 0, 0, .35)",
     },
   },
   {
     el: () => document.getElementById("warning-btn") as HTMLElement,
+    title: '第三步我们来跳个舞',
+    message: '你是第三步',
+    mask: {
+      color: "rgba(0, 0, 0, .2)",
+    },
   },
   {
-    el: () => document.getElementById("error-btn") as HTMLElement,
+    // el: () => document.getElementById("error-btn") as HTMLElement,
+    title: '现在，开始拿起篮球吧！',
+    message: '这是最后一步了',
+    mask: {
+      color: "rgba(0, 0, 0, .8)",
+    },
   },
 ];
 
@@ -32,6 +46,7 @@ export default defineComponent({
     const current = ref(0);
 
     const handleOpenTour = () => {
+      current.value = 0;
       show.value = true;
     };
     return () => (
@@ -45,16 +60,16 @@ export default defineComponent({
         </NButton>
         <NSpace>
           <NButton id="info-btn" type="info">
-            Info
+            第一步
           </NButton>
           <NButton id="success-btn" type="success">
-            Success
+            第二步
           </NButton>
           <NButton id="warning-btn" type="warning">
-            Warning
+            第三部
           </NButton>
           <NButton id="error-btn" type="error">
-            Error
+            第四部
           </NButton>
         </NSpace>
 
