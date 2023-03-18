@@ -1,4 +1,4 @@
-import { MaskRectReactive, Nullable, ScreenRect, TragetRect } from "./type";
+import { ArrowRect, MaskRectReactive, Nullable, ScreenRect, TourItemPlacement, TragetRect } from "./type";
 import { isFunction, isUnDef } from "./utils";
 
 export const getTargetRect = (
@@ -81,11 +81,12 @@ export const getMaskRect = (
 export const getScreenRect = (
   targetRect: Nullable<TragetRect>,
   screenRect: DOMRect,
+  placement: TourItemPlacement,
   offsetX: number,
   offsetY: number
 ): ScreenRect => {
   const defaultRect: ScreenRect = { top: 0, left: 0 };
-  const {} = screenRect;
+  const { top, right, bottom, left, width, height } = screenRect;
   // 没有指引目标，则为全屏居中
   if (isUnDef(targetRect)) {
     defaultRect.top = (window.innerHeight - screenRect.height) / 2;
@@ -97,3 +98,16 @@ export const getScreenRect = (
   defaultRect.left = 100 - offsetX;
   return defaultRect;
 };
+
+export const getArrowRect = (
+  targetRect: Nullable<TragetRect>,
+  screenRect: ScreenRect,
+  placement: TourItemPlacement,
+): ArrowRect => {
+  return {
+    direction: placement,
+    top: 0,
+    left: 0,
+    size: 10,
+  }
+}

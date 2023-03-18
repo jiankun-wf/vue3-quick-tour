@@ -1,19 +1,23 @@
 import { nextTick, unref } from "vue";
 // utils
-import { deepMerge, isFunction, noMinusNumber, outSideOfStep } from "./utils";
+import { deepMerge, outSideOfStep } from "./utils";
 
 // types
 import {
   MaskRectReactive,
   Nullable,
   ScreenRect,
-  TourRect,
   TourResolverCoreArgument,
   TragetRect,
 } from "./type";
-import { getMaskRect, getScreenRect, getTargetRect } from "./get-position";
+import {
+  getArrowRect,
+  getMaskRect,
+  getScreenRect,
+  getTargetRect,
+} from "./get-position";
 
-// 设置 Rect、暴露step-change
+// 设置 Rect、暴露next、prev、load
 export const useTourTransition = (args: TourResolverCoreArgument) => {
   const {
     steps,
@@ -26,6 +30,11 @@ export const useTourTransition = (args: TourResolverCoreArgument) => {
     screenRect,
     screenRef,
   } = args;
+
+  // 上下的间距
+  const rectPadding =
+    typeof padding === "number" ? { x: padding, y: padding } : padding;
+  const { x: offsetX, y: offsetY } = rectPadding;
 
   // 获取当前步骤
   const getCurrentStep = (step?: number) => {
@@ -40,14 +49,10 @@ export const useTourTransition = (args: TourResolverCoreArgument) => {
   // 计算targerRect maskRect rect 值
   const getMaskTargetRect = (step: number) => {
     const { el } = getCurrentStep(step);
-    // 上下的间距
-    const rectPadding =
-      typeof padding === "number" ? { x: padding, y: padding } : padding;
-    const { x, y } = rectPadding;
     // 没有el 时， 此步默认为全屏居中引导框
     const targetRect: Nullable<TragetRect> = getTargetRect(el);
 
-    const maskRect: MaskRectReactive = getMaskRect(targetRect, x, y);
+    const maskRect: MaskRectReactive = getMaskRect(targetRect, offsetX, offsetY);
 
     return {
       target: targetRect,
@@ -61,7 +66,12 @@ export const useTourTransition = (args: TourResolverCoreArgument) => {
     const _screenRef = unref(screenRef);
     const _screenRect = _screenRef!.getBoundingClientRect();
 
-    screenRect.value = getScreenRect(_targetRect, _screenRect, 8, 8);
+    screenRect.value = getScreenRect(_targetRect, _screenRect, placement, offsetX, offsetY);
+    arrowRect.value = getArrowRect(
+      _targetRect,
+      <ScreenRect>unref(screenRect),
+      placement
+    );
   };
 
   const setMaskTargetRect = (step: number) => {

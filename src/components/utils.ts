@@ -29,6 +29,6 @@ export function isUnDef(val: unknown): val is Nullable<undefined> {
   return val === undefined || val === null  
 }
 // 不为负数
-export function noMinusNumber(num: number): number {
+export function getNoMinusNumber(num: number): number {
   return num < 0 ? 0 : num;
 }
