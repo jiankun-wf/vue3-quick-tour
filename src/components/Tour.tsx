@@ -26,11 +26,11 @@ import {
   MaskRectReactive,
   type Nullable,
   TourStep,
-TransitionLifeCycleProps,
+  TransitionLifeCycleProps,
 } from "./type";
 // utils
 import { useTourTransition } from "./TourResolve";
-import { defaultMaskRect } from './get-position';
+import { defaultMaskRect } from "./get-position";
 
 // style render
 import { createDialogStyle } from "./style";
@@ -179,7 +179,7 @@ export const Tour = defineComponent({
 
     const handleFinish = () => {
       closeTour();
-      emit('finish')
+      emit("finish");
     };
 
     const restRect = () => {
@@ -187,7 +187,7 @@ export const Tour = defineComponent({
       targetRect.value = null;
       screenRect.value = null;
       arrowRect.value = null;
-      emit('closed');
+      emit("closed");
     };
 
     watch(
@@ -221,7 +221,12 @@ export const Tour = defineComponent({
     return () => (
       <div>
         <Teleport to="body">
-          <Transition { ...unref(__transition) as any } css={false} onAfterEnter={emit('opened')} onAfterLeave={restRect}>
+          <Transition
+            {...(unref(__transition) as any)}
+            css={false}
+            onAfterEnter={emit("opened")}
+            onAfterLeave={restRect}
+          >
             {unref(show) && (
               <div
                 key={unref(show) ? "show" : "hidden"}
@@ -289,23 +294,25 @@ export const Tour = defineComponent({
                           current={unref(current)}
                         ></TourDot>
                         {/* 上一步 */}
-                        {unref(current) > 0 && (
-                          <button title="上一步" onClick={prev}>
-                            上一步
-                          </button>
-                        )}
-                        {/* 下一步 */}
-                        {unref(current) < props.steps.length - 1 && (
-                          <button title="下一步" onClick={next}>
-                            下一步
-                          </button>
-                        )}
+                        <div>
+                          {unref(current) > 0 && (
+                            <button title="上一步" onClick={prev}>
+                              上一步
+                            </button>
+                          )}
+                          {/* 下一步 */}
+                          {unref(current) < props.steps.length - 1 && (
+                            <button title="下一步" onClick={next}>
+                              下一步
+                            </button>
+                          )}
 
-                        {unref(current) === props.steps.length - 1 && (
-                          <button title="我知道了" onClick={handleFinish}>
-                            我知道了
-                          </button>
-                        )}
+                          {unref(current) === props.steps.length - 1 && (
+                            <button title="我知道了" onClick={handleFinish}>
+                              我知道了
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
