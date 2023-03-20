@@ -102,7 +102,7 @@ export const createDialogStyle = (id: string, props: DialogStyleProps) => {
               flexDirection: "column",
               minWidth: "400px",
               boxSizing: "border-box",
-              lineHeight: "22px",
+              lineHeight: "1.6",
             },
             [
               //  close icon
@@ -163,7 +163,7 @@ export const createDialogStyle = (id: string, props: DialogStyleProps) => {
                    borderRadius: '4px',
                    fontSize: '12px',
                    transition: 'border var(--duration) var(--easing-function)',
-                   marginRight: '6px',
+                   marginRight: '10px',
                 }, [
                   c(`&:hover`, {
                     borderColor: 'var(--primary-color)',
@@ -182,7 +182,7 @@ export const createDialogStyle = (id: string, props: DialogStyleProps) => {
                   fontSize: '12px',
                   transition: 'border var(--duration) var(--easing-function)',
                   color: '#fff',
-                  marginRight: '6px',
+                  marginRight: '10px',
                 }),
                 c(`.tour-finish-button`, {
                   margin: '0',

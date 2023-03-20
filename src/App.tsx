@@ -1,5 +1,5 @@
 import { defineComponent, h, unref } from "vue";
-import { NButton, NSpace } from "naive-ui";
+import { NButton, NGradientText, NSwitch } from "naive-ui";
 import { Tour } from "./components/Tour";
 import { ref } from "vue";
 import { TourStep } from "./components/type";
@@ -7,41 +7,54 @@ import { TourStep } from "./components/type";
 const steps: TourStep[] = [
   {
     el: () => document.getElementById("info-btn") as HTMLElement,
-    title: "第一步来个rap",
-    message: "你是第一步",
+    title: "平凡之路",
+    message: "这是一个很普通的常规渲染",
     mask: {
-      color: "rgba(0, 0, 0, .5)",
+      color: "rgba(0, 0, 0, .8)",
     },
-    placement: 'right',
+    placement: "right",
   },
   {
     el: () => document.getElementById("success-btn") as HTMLElement,
-    title: "第二步来首歌",
-    message: "第二步",
+    title: "如果来点样式呢？",
+    message: h(
+      NGradientText,
+      {
+        gradient: "linear-gradient(90deg, red 0%, green 50%, blue 100%)",
+        size: "48",
+        style: { whiteSpace: "normal" },
+      },
+      "葫芦娃，一根藤上七个瓜~"
+    ),
     mask: {
-      color: "rgba(0, 0, 0, .35)",
+      color: "rgba(0, 0, 0, .5)",
     },
-    placement: 'top',
+    placement: "top",
   },
   {
     el: () => document.getElementById("warning-btn") as HTMLElement,
-    title: "第三步我们来跳个舞",
-    message:
-      "你是第三步,你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步",
+    message: h(
+      NGradientText,
+      {
+        type: "success",
+        size: "26",
+      },
+      "抱歉，不需要标题"
+    ),
     mask: {
-      color: "rgba(0, 0, 0, .2)",
+      color: "rgba(0, 0, 0, .8)",
     },
-    placement: 'left-start',
+    placement: "left-start",
   },
   {
     // el: () => document.getElementById("error-btn") as HTMLElement,
-    title: "现在，开始拿起篮球吧！",
+    title: "最后重申，我是真ikun",
     message: h("img", {
-      style: { width: '100%' },
+      style: { width: "100%" },
       src: "https://blog.haiya360.com/usr/uploads/2020/07/1689695513.gif",
     }),
     mask: {
-      color: "rgba(0, 0, 0, .8)",
+      color: "rgba(0, 0, 0, 1)",
     },
   },
 ];
