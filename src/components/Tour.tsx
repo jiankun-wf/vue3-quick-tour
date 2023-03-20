@@ -27,6 +27,7 @@ import {
   type Nullable,
   TourStep,
   TransitionLifeCycleProps,
+MaskConfig,
 } from "./type";
 // utils
 import { useTourTransition } from "./TourResolve";
@@ -37,6 +38,7 @@ import { createDialogStyle } from "./style";
 // icon svg
 import { DialogCloseSvg } from "./TourDialogClose";
 import { useTourModalTransition } from "./create-transition";
+import { isUnDef } from "./utils";
 
 export const Tour = defineComponent({
   name: "TourQuick",
@@ -50,8 +52,8 @@ export const Tour = defineComponent({
       default: "quick",
     },
     mask: {
-      type: Boolean as PropType<boolean>,
-      default: false,
+      type: [Boolean, Object] as PropType<boolean | MaskConfig>,
+      default: true,
     },
     current: {
       type: Number as PropType<number>,
@@ -73,14 +75,14 @@ export const Tour = defineComponent({
       type: [String, Number] as PropType<number | string>,
       default: "1001",
     },
-    maskStyle: {
-      type: Object as PropType<Partial<CSSProperties>>,
-      default: undefined,
-    },
-    maskColor: {
-      type: String as PropType<string>,
-      default: undefined,
-    },
+    // maskStyle: {
+    //   type: Object as PropType<Partial<CSSProperties>>,
+    //   default: undefined,
+    // },
+    // maskColor: {
+    //   type: String as PropType<string>,
+    //   default: undefined,
+    // },
     dialogShowClose: {
       type: Boolean as PropType<boolean>,
       default: true,
@@ -98,11 +100,11 @@ export const Tour = defineComponent({
     "update:current",
     "update:show",
     "next",
+    "prev",
     "finish",
     "open",
     "opened",
     "change",
-    "prev",
     "close",
     "closed",
   ],
@@ -126,21 +128,24 @@ export const Tour = defineComponent({
     const getMaskColor = computed(() => {
       const { mask } = unref(getCurrentStep) || {};
       if (typeof mask === "object") {
-        return mask.color ?? props.maskColor;
+        return mask.color ?? (typeof props.mask === 'object' ? props.mask.color : undefined);
       }
-      return props.maskColor;
+      return typeof props.mask === 'object' ? props.mask.color : undefined;
     });
     // 获取当前遮罩样式
     const getMaskWrapperStyle = computed(() => {
       const { mask } = unref(getCurrentStep) || {};
       if (typeof mask === "object") {
-        return mask.style ?? props.maskStyle;
+        return mask.style ?? (typeof props.mask === 'object' ? props.mask.style : undefined);
       }
-      return props.maskStyle;
+      return typeof props.mask === 'object' ? props.mask.style : undefined;
     });
     //  获取当前遮罩是否显示
     const getMaskShow = computed(() => {
       const { mask } = unref(getCurrentStep) || {};
+      if(isUnDef(mask)) {
+        return props.mask === false ? false : unref(show); 
+      }
       if (typeof mask === "boolean") {
         return mask === false ? false : unref(show);
       }
@@ -323,7 +328,7 @@ export const Tour = defineComponent({
         </Teleport>
 
         <TourMask
-          show={unref(getMaskShow) && props.mask}
+          show={unref(getMaskShow)}
           maskRect={maskRect}
           zIndex={props.maskZIndex}
           color={unref(getMaskColor)}
