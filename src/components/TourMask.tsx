@@ -69,10 +69,10 @@ export const TourMask = defineComponent({
                     <rect
                       fill="black"
                       rx="4"
-                      x={props.maskRect.center.left}
-                      y={props.maskRect.center.top}
-                      width={props.maskRect.center.width}
-                      height={props.maskRect.center.height}
+                      x={props.maskRect.center!.left}
+                      y={props.maskRect.center!.top}
+                      width={props.maskRect.center!.width}
+                      height={props.maskRect.center!.height}
                       class={`tour-mask--placeholder-${id}`}
                     ></rect>
                   </mask>

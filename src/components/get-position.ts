@@ -45,11 +45,13 @@ export const defaultMaskRect = (): MaskRectReactive => ({
 
 export const getMaskRect = (
   targetRect: Nullable<TragetRect>,
+  currentMaskRect: MaskRectReactive,
   x: number,
   y: number
 ): MaskRectReactive => {
   const maskRect = defaultMaskRect();
-  if (targetRect === null) {
+  if (isUnDef(targetRect)) {
+    maskRect.center = { left: currentMaskRect.center.left, top: currentMaskRect.center.top, width: 0, height: 0  };
     return maskRect;
   }
   maskRect.center = {
@@ -89,7 +91,7 @@ export const getMaskRect = (
   return maskRect;
 };
 
-import { computePosition, offset, autoPlacement, arrow } from "@floating-ui/dom";
+import { computePosition, offset, flip, arrow } from "@floating-ui/dom";
 
 export const getScreenRect = async (
   targetEl: Nullable<() => HTMLElement>,
@@ -110,16 +112,20 @@ export const getScreenRect = async (
   }
   //   TODO 位置算法
   if(isUnDef(arrowRef)) {
-    const {x,y,middlewareData: { arrow }} = await computePosition(targetEl(), screenRef, {
+    const {x, y} = await computePosition(targetEl(), screenRef, {
       placement: placement,
-      middleware: [autoPlacement(), offset(12)],
+      middleware: [flip({
+        fallbackStrategy: 'bestFit',
+      }), offset(12)],
     })
     defaultScreenRect.left = x;
     defaultScreenRect.top = y;
   } else {
     const {x,y,middlewareData} = await computePosition(targetEl(), screenRef, {
       placement: placement,
-      middleware: [offset(12), arrow({ element: arrowRef })],
+      middleware: [flip({
+        fallbackStrategy: 'bestFit',
+      }),offset(12), arrow({ element: arrowRef })],
     })
     defaultScreenRect.left = x;
     defaultScreenRect.top = y;

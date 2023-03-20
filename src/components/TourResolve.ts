@@ -53,11 +53,11 @@ export const useTourTransition = (args: TourResolverCoreArgument) => {
     // 没有el 时， 此步默认为全屏居中引导框
     const targetRect: Nullable<TragetRect> = getTargetRect(el);
 
-    const maskRect: MaskRectReactive = getMaskRect(targetRect, offsetX, offsetY);
+    const _maskRect: MaskRectReactive = getMaskRect(targetRect, maskRect,  offsetX, offsetY);
 
     return {
       target: targetRect,
-      mask: maskRect,
+      mask: _maskRect,
     };
   };
 

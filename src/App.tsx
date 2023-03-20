@@ -25,7 +25,7 @@ const steps: TourStep[] = [
   {
     el: () => document.getElementById("warning-btn") as HTMLElement,
     title: "第三步我们来跳个舞",
-    message: "你是第三步",
+    message: "你是第三步,你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步你是第三步",
     mask: {
       color: "rgba(0, 0, 0, .2)",
     },
@@ -68,9 +68,9 @@ export default defineComponent({
         <NButton style={{ transform: 'translate(700px,100px)' }}  id="warning-btn" type="warning">
           第三部
         </NButton>
-        <NButton style={{ transform: 'translate(900px,0px)' }}  id="error-btn" type="error">
+        {/* <NButton style={{ transform: 'translate(900px,0px)' }}  id="error-btn" type="error">
           第四部
-        </NButton>
+        </NButton> */}
 
         <Tour
           steps={steps}
@@ -79,7 +79,7 @@ export default defineComponent({
           mask
           current={unref(current)}
           onUpdate:current={(val) => (current.value = val)}
-          padding={{ x: 9, y: 8 }}
+          padding={6}
         />
       </div>
     );

@@ -8,13 +8,13 @@
 
 ## 围绕客户端做的基建
 
-### 1. 优点
+### 1. 特点
 
 1. vue3 + tsx。
 2. css-render 不生成 css 文件，也无需引入。
 3. transition-hooks 自定义遮罩动画、弹出框动画。
 
-4. 指定位置，以及自动定位（尚在完善）。
+4. 指定位置，以及自动定位（差 arrow）。
 
 5. 自定义位置（next v2.0）。
 6. 自定义主题，以及 dark mode （next v2.0）。
@@ -25,7 +25,7 @@
 |      属性       |               传值                |  默认值   |             说明             |
 | :-------------: | :-------------------------------: | :-------: | :--------------------------: |
 |      steps      |            TourStep[]             |    [ ]    |       每步的配置，必填       |
-|   classPrefix   |              string               |   quick   |       全局 calss 前缀        |
+|   classPrefix   |              string               |  "quick"  |       全局 class 前缀        |
 |      mask       |       boolean / MaskConfig        |   true    |        全局 mask 配置        |
 | v-model:current |              number               |     0     |   当前步骤，支持非受控模式   |
 |  v-model:show   |              boolean              |   false   | 是否展示引导，支持非受控模式 |
@@ -40,13 +40,15 @@
 
 #### 1. TourStep
 
-|    值     |           类型           | 默认值      | 说明                                      |
-| :-------: | :----------------------: | ----------- | ----------------------------------------- |
-|    el     |  null () => HTMLElment   | null        | 指引对象，为 null 时全屏居中              |
-|   title   |          string          | undefined   | 弹框标题                                  |
-|  message  |          string          | undefined   | 弹框内容                                  |
-| placement | top、bottom、left、right | bottom.auto | 弹框相对于指引目标位置                    |
-|   mask    |   boolean / MaskConfig   | undefined   | 当前步骤 mask 配置 undefined 时随全局配置 |
+|    值     |         类型          | 默认值    | 说明                                      |
+| :-------: | :-------------------: | --------- | ----------------------------------------- |
+|    el     | null () => HTMLElment | null      | 指引对象，为 null 时全屏居中              |
+|   title   |        string         | undefined | 弹框标题                                  |
+|  message  |        string         | undefined | 弹框内容                                  |
+| placement |   TourItemPlacement   | bottom    | 弹框相对于指引目标位置                    |
+|   mask    | boolean / MaskConfig  | undefined | 当前步骤 mask 配置 undefined 时随全局配置 |
+
+##### type TourItem = top | bottom | left | right | top-start | top-end | left-start | left-end | right-start | right-end | bottom-start | bottom-end
 
 #### 2. MaskConfig
 
@@ -98,3 +100,5 @@
 ### 7. 构建
 
 1. pnpm build:lib
+
+### 8. npm 待构建

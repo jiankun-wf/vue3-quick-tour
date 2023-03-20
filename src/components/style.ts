@@ -49,6 +49,7 @@ export const createDialogStyle = (id: string, props: DialogStyleProps) => {
       transition: "all var(--duration) var(--easing-function)",
       color: "rgba(0, 0, 0, 0.85),",
       "--primary-color": "#2080f0",
+      width: '476px',
     }),
     [
       c(
@@ -91,7 +92,6 @@ export const createDialogStyle = (id: string, props: DialogStyleProps) => {
                 transform: "translateY(50%) rotate(-135deg)",
                 boxShadow: "2px 2px 5px rgba(0,0,0,.05)",
                 zIndex: "0",
-                background: "0 0",
               }),
             ]
           ),
