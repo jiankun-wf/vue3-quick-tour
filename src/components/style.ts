@@ -150,7 +150,54 @@ export const createDialogStyle = (id: string, props: DialogStyleProps) => {
                 flexDirection: "row",
                 justifyContent: "space-between",
                 alignItems: "center",
-              }),
+              }, [
+                c(`.tour-prev-button`, {
+                   margin: '0',
+                   lineHeight: '1',
+                   whiteSpace: 'nowrap',
+                   cursor: 'pointer',
+                   backgroundColor: '#fff',
+                   height: '28px',
+                   outline: 'none',
+                   border: '1px solid rgb(224, 224, 230)',
+                   borderRadius: '4px',
+                   fontSize: '12px',
+                   transition: 'border var(--duration) var(--easing-function)',
+                   marginRight: '6px',
+                }, [
+                  c(`&:hover`, {
+                    borderColor: 'var(--primary-color)',
+                  })
+                ]),
+                c(`.tour-next-button`, {
+                  margin: '0',
+                  lineHeight: '1',
+                  whiteSpace: 'nowrap',
+                  cursor: 'pointer',
+                  backgroundColor: 'var(--primary-color)',
+                  height: '28px',
+                  outline: 'none',
+                  border: '1px solid var(--primary-color)',
+                  borderRadius: '4px',
+                  fontSize: '12px',
+                  transition: 'border var(--duration) var(--easing-function)',
+                  color: '#fff',
+                  marginRight: '6px',
+                }),
+                c(`.tour-finish-button`, {
+                  margin: '0',
+                  lineHeight: '1',
+                  whiteSpace: 'nowrap',
+                  cursor: 'pointer',
+                  backgroundColor: '#fff',
+                  height: '28px',
+                  outline: 'none',
+                  border: '1px solid rgb(224, 224, 230)',
+                  borderRadius: '4px',
+                  fontSize: '12px',
+                  transition: 'border var(--duration) var(--easing-function)'
+                }),
+              ]),
             ]
           ),
         ]

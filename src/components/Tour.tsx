@@ -11,6 +11,7 @@ import {
   onMounted,
   onUnmounted,
   Transition,
+isVNode,
 } from "vue";
 
 // mask
@@ -29,7 +30,7 @@ import {
   MaskConfig,
 } from "./type";
 // utils
-import { useTourTransition } from "./TourResolve";
+import { useTourTransition, useTourMaskSetting } from "./hooks";
 import { defaultMaskRect } from "./get-position";
 
 // style render
@@ -117,47 +118,12 @@ export const Tour = defineComponent({
     const targetRect = ref<Nullable<TragetRect>>(null);
     const arrowRef = ref<Nullable<Element>>(null);
     const arrowRect = ref<Nullable<ArrowRect>>(null);
-
-    const __transition = useTourModalTransition(props.modalTransition);
-
     const maskRect = reactive<MaskRectReactive>(defaultMaskRect());
 
-    // 获取当前步骤信息
-    const getCurrentStep = computed(() => props.steps?.at(unref(current)));
-    // 获取当前遮罩颜色
-    const getMaskColor = computed(() => {
-      const { mask } = unref(getCurrentStep) || {};
-      if (typeof mask === "object") {
-        return (
-          mask.color ??
-          (typeof props.mask === "object" ? props.mask.color : undefined)
-        );
-      }
-      return typeof props.mask === "object" ? props.mask.color : undefined;
-    });
-    // 获取当前遮罩样式
-    const getMaskWrapperStyle = computed(() => {
-      const { mask } = unref(getCurrentStep) || {};
-      if (typeof mask === "object") {
-        return (
-          mask.style ??
-          (typeof props.mask === "object" ? props.mask.style : undefined)
-        );
-      }
-      return typeof props.mask === "object" ? props.mask.style : undefined;
-    });
-    //  获取当前遮罩是否显示
-    const getMaskShow = computed(() => {
-      const { mask } = unref(getCurrentStep) || {};
-      if (isUnDef(mask)) {
-        return props.mask === false ? false : unref(show);
-      }
-      if (typeof mask === "boolean") {
-        return mask === false ? false : unref(show);
-      }
-      return unref(show);
-    });
+        // 获取当前步骤信息
+        const getCurrentStep = computed(() => props.steps.at(unref(current)) as TourStep);
 
+    const __transition = useTourModalTransition(props.modalTransition);
     const { next, prev, last, load, changeStep } = useTourTransition({
       steps: props.steps,
       emit: emit,
@@ -170,6 +136,11 @@ export const Tour = defineComponent({
       screenRef,
       arrowRef,
     });
+    const { getMaskColor, getMaskWrapperStyle, getMaskShow } = useTourMaskSetting(getCurrentStep, props, show);
+
+    // 获取当前遮罩颜色
+
+ 
     const { mount, unMount } = createDialogStyle(id, {
       classPrefix: props.classPrefix,
       zIndex: Number(props.maskZIndex) + 1,
@@ -201,6 +172,15 @@ export const Tour = defineComponent({
       arrowRect.value = null;
       emit("closed");
     };
+
+    const renderContentMessage = () => {
+      const { message } = unref(getCurrentStep);
+      if(typeof message === 'string') {
+        return message;
+      } else if(isVNode(message)) {
+        return message;
+      } 
+    }
 
     watch(
       () => props.show,
@@ -302,7 +282,7 @@ export const Tour = defineComponent({
                             ? renderSlot(slots, "content", {
                                 currentStep: unref(getCurrentStep),
                               })
-                            : unref(getCurrentStep)?.message}
+                            : renderContentMessage()}
                         </div>
                         <div class={`${props.classPrefix}-tour-footer_${id}`}>
                           <TourDot
@@ -312,19 +292,19 @@ export const Tour = defineComponent({
                           {/* 上一步 */}
                           <div>
                             {unref(current) > 0 && (
-                              <button title="上一步" onClick={prev}>
+                              <button class="tour-prev-button" title="上一步" onClick={prev}>
                                 上一步
                               </button>
                             )}
                             {/* 下一步 */}
                             {unref(current) < props.steps.length - 1 && (
-                              <button title="下一步" onClick={next}>
+                              <button class="tour-next-button" title="下一步" onClick={next}>
                                 下一步
                               </button>
                             )}
 
                             {unref(current) === props.steps.length - 1 && (
-                              <button title="我知道了" onClick={handleFinish}>
+                              <button class="tour-finish-button" title="我知道了" onClick={handleFinish}>
                                 我知道了
                               </button>
                             )}

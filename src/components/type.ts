@@ -1,5 +1,20 @@
-import { CSSProperties, Ref } from "vue";
+import { CSSProperties, Ref, VNode } from "vue";
 import { type Placement as _PlaceMent } from '@floating-ui/dom';
+
+// 漫游式引导 props
+export interface TourProps {
+  show?: boolean;
+  current: number;
+  steps: TourStep[];
+  classPrefix?: string;
+  mask?: boolean | MaskConfig;
+  arrow?: boolean;
+  padding?: number | { x: number, y: number };
+  maskZIndex?: string | number;
+  dialogShowClose?: boolean;
+  modalTransition?: TransitionLifeCycleProps;
+  maskTransition?: TransitionLifeCycleProps;
+};
 
 // 每步的配置
 export type TourItemPlacement = _PlaceMent;
@@ -10,7 +25,7 @@ export interface MaskConfig {
 export interface TourStep {
   el?: null | (() => HTMLElement); // 绑定的element 此项为null时，弹出窗口居中显示
   title?: string; // 标题
-  message?: string; // 内容文字
+  message?: string | VNode; // 内容文字
   placement?: TourItemPlacement; // 位置 TODO：位置算法；
   beforeEnter?: (next: (current: number, rect: TourRect) => void) => void; // 进入之前的判断 next do (TODO) 
   mask?: boolean | MaskConfig // 此步是否有遮罩？简单的true/false时配置跟着整体走；

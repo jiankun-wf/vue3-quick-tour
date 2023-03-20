@@ -1,17 +1,16 @@
-import { nextTick, unref } from "vue";
+import { ComputedRef, computed, nextTick, unref, Ref } from "vue";
 // utils
-import { deepMerge, outSideOfStep } from "./utils";
+import { deepMerge, isUnDef, outSideOfStep } from "./utils";
 
 // types
 import {
   MaskRectReactive,
   Nullable,
-  ScreenRect,
   TourResolverCoreArgument,
+  TourStep,
   TragetRect,
 } from "./type";
 import {
-  getArrowRect,
   getMaskRect,
   getScreenRect,
   getTargetRect,
@@ -63,7 +62,6 @@ export const useTourTransition = (args: TourResolverCoreArgument) => {
 
   const setScreenArrowRect = async () => {
     const { placement, el } = getCurrentStep();
-    const _targetRect = unref(targetRect);
     const _screenRef = unref(screenRef) as HTMLElement;
     const _arrowRef = unref(arrowRef) as Nullable<HTMLElement>;
 
@@ -71,11 +69,6 @@ export const useTourTransition = (args: TourResolverCoreArgument) => {
 
     screenRect.value = screen;
     arrowRect.value = arrow;
-    // arrowRect.value = getArrowRect(
-    //   _targetRect,
-    //   <ScreenRect>unref(screenRect),
-    //   placement
-    // );
   };
 
   const setMaskTargetRect = (step: number) => {
@@ -132,3 +125,44 @@ export const useTourTransition = (args: TourResolverCoreArgument) => {
     changeStep,
   };
 };
+
+export const useTourMaskSetting = (
+  getCurrentStep: ComputedRef<TourStep>,
+  props: Record<string, any>,
+  show: Ref<boolean>,
+) => {
+  const getMaskColor = computed(() => {
+    const { mask } = unref(getCurrentStep) || {};
+    if (typeof mask === "object") {
+      return (
+        mask.color ??
+        (typeof props.mask === "object" ? props.mask.color : undefined)
+      );
+    }
+    return typeof props.mask === "object" ? props.mask.color : undefined;
+  });
+  // 获取当前遮罩样式
+  const getMaskWrapperStyle = computed(() => {
+    const { mask } = unref(getCurrentStep) || {};
+    if (typeof mask === "object") {
+      return (
+        mask.style ??
+        (typeof props.mask === "object" ? props.mask.style : undefined)
+      );
+    }
+    return typeof props.mask === "object" ? props.mask.style : undefined;
+  });
+  //  获取当前遮罩是否显示
+  const getMaskShow = computed(() => {
+    const { mask } = unref(getCurrentStep) || {};
+    if (isUnDef(mask)) {
+      return props.mask === false ? false : unref(show);
+    }
+    if (typeof mask === "boolean") {
+      return mask === false ? false : unref(show);
+    }
+    return unref(show);
+  });
+
+  return { getMaskColor, getMaskWrapperStyle, getMaskShow };
+}
