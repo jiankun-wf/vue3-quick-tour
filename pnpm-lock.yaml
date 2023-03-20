@@ -1,6 +1,8 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@floating-ui/dom': ^1.2.5
+  '@popperjs/core': ^2.11.6
   '@vitejs/plugin-vue': ^4.0.0
   '@vitejs/plugin-vue-jsx': ^3.0.0
   css-render: ^0.15.12
@@ -12,10 +14,12 @@ specifiers:
   vueuc: ^0.4.51
 
 dependencies:
+  '@floating-ui/dom': 1.2.5
   naive-ui: 2.34.3_vue@3.2.47
   vue: 3.2.47
 
 devDependencies:
+  '@popperjs/core': 2.11.6
   '@vitejs/plugin-vue': 4.0.0_vite@4.1.4+vue@3.2.47
   '@vitejs/plugin-vue-jsx': 3.0.0_vite@4.1.4+vue@3.2.47
   css-render: 0.15.12
@@ -541,6 +545,16 @@ packages:
     dev: true
     optional: true
 
+  /@floating-ui/core/1.2.4:
+    resolution: {integrity: sha512-SQOeVbMwb1di+mVWWJLpsUTToKfqVNioXys011beCAhyOIFtS+GQoW4EQSneuxzmQKddExDwQ+X0hLl4lJJaSQ==}
+    dev: false
+
+  /@floating-ui/dom/1.2.5:
+    resolution: {integrity: sha512-+sAUfpQ3Frz+VCbPCqj+cZzvEESy3fjSeT/pDWkYCWOBXYNNKZfuVsHuv8/JO2zze8+Eb/Q7a6hZVgzS81fLbQ==}
+    dependencies:
+      '@floating-ui/core': 1.2.4
+    dev: false
+
   /@jridgewell/gen-mapping/0.1.1:
     resolution: {integrity: sha512-sQXCasFk+U8lWYEe66WxRDOE9PjVz4vSM51fTu3Hw+ClTpUSQb718772vH3pyS5pShp6lvQM7SxgIDXXXmOX7w==}
     engines: {node: '>=6.0.0'}
@@ -581,6 +595,10 @@ packages:
 
   /@juggle/resize-observer/3.4.0:
     resolution: {integrity: sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA==}
+
+  /@popperjs/core/2.11.6:
+    resolution: {integrity: sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==}
+    dev: true
 
   /@types/katex/0.14.0:
     resolution: {integrity: sha512-+2FW2CcT0K3P+JMR8YG846bmDwplKUTsWgT2ENwdQ1UdVfRk3GQrh6Mi4sTopy30gI8Uau5CEqHTDZ6YvWIUPA==}

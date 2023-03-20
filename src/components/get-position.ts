@@ -1,5 +1,12 @@
-import { ArrowRect, MaskRectReactive, Nullable, ScreenRect, TourItemPlacement, TragetRect } from "./type";
-import { isFunction, isUnDef } from "./utils";
+import {
+  ArrowRect,
+  MaskRectReactive,
+  Nullable,
+  ScreenRect,
+  TourItemPlacement,
+  TragetRect,
+} from "./type";
+import { isFunction, isUnDef, getNoMinusNumber } from "./utils";
 
 export const getTargetRect = (
   el: null | (() => HTMLElement)
@@ -46,68 +53,95 @@ export const getMaskRect = (
     return maskRect;
   }
   maskRect.center = {
-    top: targetRect.top - y,
-    left: targetRect.left - x,
-    width: targetRect.width + 2 * x,
-    height: targetRect.height + 2 * y,
+    top: getNoMinusNumber(targetRect.top - y),
+    left: getNoMinusNumber(targetRect.left - x),
+    width: getNoMinusNumber(targetRect.width + 2 * x),
+    height: getNoMinusNumber(targetRect.height + 2 * y),
   };
   maskRect.top = {
     top: 0,
     left: 0,
     width: "100%",
-    height: targetRect.top - y,
+    height: getNoMinusNumber(targetRect.top - y),
   };
   maskRect.left = {
     top: 0,
     left: 0,
-    width: targetRect.left - x,
+    width: getNoMinusNumber(targetRect.left - x),
     height: "100%",
   };
   maskRect.bottom = {
-    top: targetRect.bottom + y,
+    top: getNoMinusNumber(targetRect.bottom + y),
     left: 0,
     width: "100%",
-    height: window.innerHeight - targetRect.top - targetRect.height - y,
+    height: getNoMinusNumber(
+      window.innerHeight - targetRect.top - targetRect.height - y
+    ),
   };
   maskRect.right = {
     top: 0,
-    left: targetRect.right + x,
-    width: window.innerWidth - targetRect.left - targetRect.width - x,
+    left: getNoMinusNumber(targetRect.right + x),
+    width: getNoMinusNumber(
+      window.innerWidth - targetRect.left - targetRect.width - x
+    ),
     height: "100%",
   };
   return maskRect;
 };
 
-export const getScreenRect = (
-  targetRect: Nullable<TragetRect>,
-  screenRect: DOMRect,
+import { computePosition, offset, autoPlacement, arrow } from "@floating-ui/dom";
+
+export const getScreenRect = async (
+  targetEl: Nullable<() => HTMLElement>,
+  screenRef: HTMLElement,
+  arrowRef: Nullable<HTMLElement>,
   placement: TourItemPlacement,
   offsetX: number,
   offsetY: number
-): ScreenRect => {
-  const defaultRect: ScreenRect = { top: 0, left: 0 };
-  const { top, right, bottom, left, width, height } = screenRect;
+): Promise<{ screen: ScreenRect, arrow: Nullable<ArrowRect> }> => {
+  const defaultScreenRect: ScreenRect = { top: 0, left: 0 };
+  const defaultArrowRect: ArrowRect = { top: 0, left: 0, direction: 'left', size: 16 }
   // 没有指引目标，则为全屏居中
-  if (isUnDef(targetRect)) {
-    defaultRect.top = (window.innerHeight - screenRect.height) / 2;
-    defaultRect.left = (window.innerWidth - screenRect.width) / 2;
-    return defaultRect;
+  if (isUnDef(targetEl)) {
+    const screenRect = screenRef.getBoundingClientRect();
+    defaultScreenRect.top = (window.innerHeight - screenRect.height) / 2;
+    defaultScreenRect.left = (window.innerWidth - screenRect.width) / 2;
+    return { screen: defaultScreenRect, arrow: null };
   }
   //   TODO 位置算法
-  defaultRect.top = 100 - offsetY;
-  defaultRect.left = 100 - offsetX;
-  return defaultRect;
+  if(isUnDef(arrowRef)) {
+    const {x,y,middlewareData: { arrow }} = await computePosition(targetEl(), screenRef, {
+      placement: placement,
+      middleware: [autoPlacement(), offset(12)],
+    })
+    defaultScreenRect.left = x;
+    defaultScreenRect.top = y;
+  } else {
+    const {x,y,middlewareData} = await computePosition(targetEl(), screenRef, {
+      placement: placement,
+      middleware: [offset(12), arrow({ element: arrowRef })],
+    })
+    defaultScreenRect.left = x;
+    defaultScreenRect.top = y;
+    defaultArrowRect.left = middlewareData.arrow?.x ?? 0;
+    defaultArrowRect.top = middlewareData.arrow?.y ?? 0;
+  }
+
+  return {
+    screen: defaultScreenRect,
+    arrow: defaultArrowRect,
+  };
 };
 
 export const getArrowRect = (
   targetRect: Nullable<TragetRect>,
   screenRect: ScreenRect,
-  placement: TourItemPlacement,
+  placement: TourItemPlacement
 ): ArrowRect => {
   return {
     direction: placement,
     top: 0,
     left: 0,
     size: 10,
-  }
-}
+  };
+};

@@ -9,10 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@floating-ui/dom": "^1.2.5",
     "naive-ui": "^2.34.3",
     "vue": "^3.2.45"
   },
   "devDependencies": {
+    "@popperjs/core": "^2.11.6",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.0",
     "css-render": "^0.15.12",

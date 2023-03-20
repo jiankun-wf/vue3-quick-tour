@@ -1,15 +1,8 @@
 import { CSSProperties, Ref } from "vue";
+import { type Placement as _PlaceMent } from '@floating-ui/dom';
 
 // 每步的配置
-export type TourItemPlacement =
-  | "top"
-  | "left"
-  | "right"
-  | "bottom"
-  | "top-left"
-  | "top-right"
-  | "bottom-left"
-  | "bottom-right";
+export type TourItemPlacement = _PlaceMent;
 export interface MaskConfig {
   color?: string;
   style?: Partial<CSSProperties>;
@@ -67,6 +60,7 @@ export interface TourResolverCoreArgument {
   arrowRect: Ref<Nullable<ArrowRect>>; // 箭头rect
   screenRect: Ref<Nullable<ScreenRect>>; // 主体显示内容rect
   screenRef: Ref<Nullable<Element>>;
+  arrowRef: Ref<Nullable<Element>>;
 }
 
 

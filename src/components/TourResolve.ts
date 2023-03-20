@@ -29,6 +29,7 @@ export const useTourTransition = (args: TourResolverCoreArgument) => {
     arrowRect,
     screenRect,
     screenRef,
+    arrowRef,
   } = args;
 
   // 上下的间距
@@ -60,18 +61,21 @@ export const useTourTransition = (args: TourResolverCoreArgument) => {
     };
   };
 
-  const setScreenArrowRect = () => {
-    const { placement = "bottom" } = getCurrentStep();
+  const setScreenArrowRect = async () => {
+    const { placement, el } = getCurrentStep();
     const _targetRect = unref(targetRect);
-    const _screenRef = unref(screenRef);
-    const _screenRect = _screenRef!.getBoundingClientRect();
+    const _screenRef = unref(screenRef) as HTMLElement;
+    const _arrowRef = unref(arrowRef) as Nullable<HTMLElement>;
 
-    screenRect.value = getScreenRect(_targetRect, _screenRect, placement, offsetX, offsetY);
-    arrowRect.value = getArrowRect(
-      _targetRect,
-      <ScreenRect>unref(screenRect),
-      placement
-    );
+    const { screen, arrow } = await getScreenRect(el, _screenRef as HTMLElement, _arrowRef ,placement, offsetX, offsetY);
+
+    screenRect.value = screen;
+    arrowRect.value = arrow;
+    // arrowRect.value = getArrowRect(
+    //   _targetRect,
+    //   <ScreenRect>unref(screenRect),
+    //   placement
+    // );
   };
 
   const setMaskTargetRect = (step: number) => {
