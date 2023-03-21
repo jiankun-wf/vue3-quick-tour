@@ -1,20 +1,16 @@
 import { ComputedRef, computed, nextTick, unref, Ref } from "vue";
 // utils
-import { deepMerge, isUnDef, outSideOfStep } from "./utils";
+import { deepMerge, isUnDef, outSideOfStep } from "../utils";
 
 // types
 import {
-  MaskRectReactive,
   Nullable,
   TourResolverCoreArgument,
   TourStep,
+  MaskRectReactive,
   TragetRect,
-} from "./type";
-import {
-  getMaskRect,
-  getScreenRect,
-  getTargetRect,
-} from "./get-position";
+} from "../types";
+import { getMaskRect, getScreenRect, getTargetRect } from "./position";
 
 // 设置 Rect、暴露next、prev、load
 export const useTourTransition = (args: TourResolverCoreArgument) => {
@@ -44,7 +40,7 @@ export const useTourTransition = (args: TourResolverCoreArgument) => {
     if (outSideOfStep(step, steps.length, false)) {
       return null;
     }
-    return deepMerge(steps.at(step));
+    return deepMerge(steps[step]);
   };
   // 计算targerRect maskRect rect 值
   const getMaskTargetRect = (step: number) => {
@@ -52,7 +48,12 @@ export const useTourTransition = (args: TourResolverCoreArgument) => {
     // 没有el 时， 此步默认为全屏居中引导框
     const targetRect: Nullable<TragetRect> = getTargetRect(el);
 
-    const _maskRect: MaskRectReactive = getMaskRect(targetRect, maskRect,  offsetX, offsetY);
+    const _maskRect: MaskRectReactive = getMaskRect(
+      targetRect,
+      maskRect,
+      offsetX,
+      offsetY
+    );
 
     return {
       target: targetRect,
@@ -65,7 +66,14 @@ export const useTourTransition = (args: TourResolverCoreArgument) => {
     const _screenRef = unref(screenRef) as HTMLElement;
     const _arrowRef = unref(arrowRef) as Nullable<HTMLElement>;
 
-    const { screen, arrow } = await getScreenRect(el, _screenRef as HTMLElement, _arrowRef ,placement, offsetX, offsetY);
+    const { screen, arrow } = await getScreenRect(
+      el,
+      _screenRef as HTMLElement,
+      _arrowRef,
+      placement,
+      offsetX,
+      offsetY
+    );
 
     screenRect.value = screen;
     arrowRect.value = arrow;
@@ -129,7 +137,7 @@ export const useTourTransition = (args: TourResolverCoreArgument) => {
 export const useTourMaskSetting = (
   getCurrentStep: ComputedRef<TourStep>,
   props: Record<string, any>,
-  show: Ref<boolean>,
+  show: Ref<boolean>
 ) => {
   const getMaskColor = computed(() => {
     const { mask } = unref(getCurrentStep) || {};
@@ -165,4 +173,4 @@ export const useTourMaskSetting = (
   });
 
   return { getMaskColor, getMaskWrapperStyle, getMaskShow };
-}
+};

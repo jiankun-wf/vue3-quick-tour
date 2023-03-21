@@ -1,12 +1,12 @@
 import {
+  Nullable,
+  TourItemPlacement,
+  ScreenRect,
   ArrowRect,
   MaskRectReactive,
-  Nullable,
-  ScreenRect,
-  TourItemPlacement,
   TragetRect,
-} from "./type";
-import { isFunction, isUnDef, getNoMinusNumber } from "./utils";
+} from "../types";
+import { isUnDef, getNoMinusNumber } from "../utils";
 
 export const getTargetRect = (
   el: null | (() => HTMLElement)
@@ -51,7 +51,12 @@ export const getMaskRect = (
 ): MaskRectReactive => {
   const maskRect = defaultMaskRect();
   if (isUnDef(targetRect)) {
-    maskRect.center = { left: currentMaskRect.center.left, top: currentMaskRect.center.top, width: 0, height: 0  };
+    maskRect.center = {
+      left: currentMaskRect.center.left,
+      top: currentMaskRect.center.top,
+      width: 0,
+      height: 0,
+    };
     return maskRect;
   }
   maskRect.center = {
@@ -100,9 +105,14 @@ export const getScreenRect = async (
   placement: TourItemPlacement,
   offsetX: number,
   offsetY: number
-): Promise<{ screen: ScreenRect, arrow: Nullable<ArrowRect> }> => {
+): Promise<{ screen: ScreenRect; arrow: Nullable<ArrowRect> }> => {
   const defaultScreenRect: ScreenRect = { top: 0, left: 0 };
-  const defaultArrowRect: ArrowRect = { top: 0, left: 0, direction: 'left', size: 16 }
+  const defaultArrowRect: ArrowRect = {
+    top: 0,
+    left: 0,
+    direction: "left",
+    size: 16,
+  };
   // 没有指引目标，则为全屏居中
   if (isUnDef(targetEl)) {
     const screenRect = screenRef.getBoundingClientRect();
@@ -111,22 +121,33 @@ export const getScreenRect = async (
     return { screen: defaultScreenRect, arrow: null };
   }
   //   TODO 位置算法
-  if(isUnDef(arrowRef)) {
-    const {x, y} = await computePosition(targetEl(), screenRef, {
+  if (isUnDef(arrowRef)) {
+    const { x, y } = await computePosition(targetEl(), screenRef, {
       placement: placement,
-      middleware: [flip({
-        fallbackStrategy: 'bestFit',
-      }), offset(12)],
-    })
+      middleware: [
+        flip({
+          fallbackStrategy: "bestFit",
+        }),
+        offset(12),
+      ],
+    });
     defaultScreenRect.left = x;
     defaultScreenRect.top = y;
   } else {
-    const {x,y,middlewareData} = await computePosition(targetEl(), screenRef, {
-      placement: placement,
-      middleware: [flip({
-        fallbackStrategy: 'bestFit',
-      }),offset(12), arrow({ element: arrowRef })],
-    })
+    const { x, y, middlewareData } = await computePosition(
+      targetEl(),
+      screenRef,
+      {
+        placement: placement,
+        middleware: [
+          flip({
+            fallbackStrategy: "bestFit",
+          }),
+          offset(12),
+          arrow({ element: arrowRef }),
+        ],
+      }
+    );
     defaultScreenRect.left = x;
     defaultScreenRect.top = y;
     defaultArrowRect.left = middlewareData.arrow?.x ?? 0;

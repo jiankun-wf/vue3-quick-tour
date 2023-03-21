@@ -8,9 +8,9 @@ import {
   onUnmounted,
   unref,
 } from "vue";
-import { MaskRectReactive, TransitionLifeCycleProps } from "./type";
-import { createMaskStyle } from "./style";
-import { useTourMaskTransition } from "./create-transition";
+import { TransitionLifeCycleProps, MaskRectReactive } from "../types";
+import { createMaskStyle } from "../styles/index";
+import { useTourMaskTransition } from "../hooks/transition";
 
 export const TourMask = defineComponent({
   name: "TourMask",
@@ -38,11 +38,21 @@ export const TourMask = defineComponent({
     transition: {
       type: Object as PropType<TransitionLifeCycleProps>,
       default: undefined,
-    }
+    },
+    classPrefix: {
+      type: String as PropType<string>,
+      default: "quick",
+    },
+    style: {
+      type: Object as PropType<CSSProperties>,
+      default: undefined,
+    },
   },
   setup(props) {
-    const id = `${Math.random().toString(16).slice(2)}`;
-    const { mount, unMount } = createMaskStyle(id, { zIndex: props.zIndex });
+    const { mount, unMount } = createMaskStyle({
+      zIndex: props.zIndex,
+      classPrefix: props.classPrefix,
+    });
     const __transition = useTourMaskTransition(props.transition);
     onMounted(() => {
       mount();
@@ -50,13 +60,17 @@ export const TourMask = defineComponent({
 
     onUnmounted(() => {
       unMount();
-    })
+    });
     return () => (
       <Teleport to="body">
-        <Transition { ...unref(__transition) as any }>
+        <Transition {...(unref(__transition) as any)}>
           {props.show && (
-            <div key={props.show ? "show" : "hidden"} class={`tour-mask-${id}`} style={props.wrapperStyle}>
-              <svg class={`tour-mask-svg-${id}`}>
+            <div
+              key={props.show ? "show" : "hidden"}
+              class={`${props.classPrefix}-tour-mask`}
+              style={{ ...props.wrapperStyle, ...props.style }}
+            >
+              <svg class={`${props.classPrefix}-tour-mask-svg`}>
                 <defs>
                   <mask id="quick-tour-mask-:r0:">
                     <rect
@@ -73,7 +87,7 @@ export const TourMask = defineComponent({
                       y={props.maskRect.center!.top}
                       width={props.maskRect.center!.width}
                       height={props.maskRect.center!.height}
-                      class={`tour-mask--placeholder-${id}`}
+                      class={`${props.classPrefix}-tour-mask--placeholder`}
                     ></rect>
                   </mask>
                 </defs>
@@ -85,7 +99,7 @@ export const TourMask = defineComponent({
                   pointer-events="auto"
                   // 这是背景颜色！！！！！
                   fill={props.color}
-                  class={`tour-mask--background-${id}`}
+                  class={`${props.classPrefix}-tour-mask--background`}
                   mask="url(#quick-tour-mask-:r0:)"
                 ></rect>
                 {/* 上 */}

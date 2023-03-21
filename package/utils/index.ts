@@ -1,5 +1,5 @@
 import { warn } from "vue";
-import { Nullable } from "./type";
+import { Nullable } from "../types";
 
 export function deepMerge<T = any>(src: any = {}, target: any = {}): T {
     let key: string;

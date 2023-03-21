@@ -1,4 +1,5 @@
 import {
+  CSSProperties,
   PropType,
   computed,
   defineComponent,
@@ -6,7 +7,7 @@ import {
   onUnmounted,
   unref,
 } from "vue";
-import { createTourDotsStyle } from "./style";
+import { createTourDotsStyle } from "../styles";
 
 export const TourDot = defineComponent({
   name: "TourDot",
@@ -17,6 +18,10 @@ export const TourDot = defineComponent({
       default: 0,
     },
     current: Number as PropType<number>,
+    style: {
+      type: Object as PropType<CSSProperties>,
+      default: undefined,
+    },
   },
   setup(props) {
     const { mount, unMount } = createTourDotsStyle();
@@ -39,12 +44,11 @@ export const TourDot = defineComponent({
     });
 
     return () => (
-      <div class="tour-dots">
+      <div class="tour-dots" style={{ ...props.style }}>
         {unref(getLength).map((num) => (
-          <div class={[
-            'tour-dots__dot',
-            num === props.current && 'is-active',
-          ]}></div>
+          <div
+            class={["tour-dots__dot", num === props.current && "is-active"]}
+          ></div>
         ))}
       </div>
     );

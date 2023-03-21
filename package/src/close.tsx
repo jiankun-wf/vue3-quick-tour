@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
 
-export const DialogCloseSvg = defineComponent({
-  name: "SvgClose",
+export const TourModalClose = defineComponent({
+  name: "TourModalClose",
   emits: ['click'],
   setup(_, { emit }) {
     const handleClick = (e: Event) => {

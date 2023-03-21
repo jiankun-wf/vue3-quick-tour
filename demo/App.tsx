@@ -1,8 +1,8 @@
 import { defineComponent, h, unref } from "vue";
 import { NButton, NGradientText, NSwitch } from "naive-ui";
-import { Tour } from "./components/Tour";
+import { Tour } from "../package/index";
 import { ref } from "vue";
-import { TourStep } from "./components/type";
+import { TourStep } from "../package/index";
 
 const steps: TourStep[] = [
   {
@@ -24,7 +24,9 @@ const steps: TourStep[] = [
         size: "48",
         style: { whiteSpace: "normal" },
       },
-      "葫芦娃，一根藤上七个瓜~"
+      {
+        default: () => "葫芦娃，一根藤上七个瓜~",
+      }
     ),
     mask: {
       color: "rgba(0, 0, 0, .5)",
@@ -36,15 +38,17 @@ const steps: TourStep[] = [
     message: h(
       NGradientText,
       {
-        type: "success",
+        type: "error",
         size: "26",
       },
-      "抱歉，不需要标题"
+      {
+        default: () => "抱歉，不需要标题",
+      }
     ),
     mask: {
       color: "rgba(0, 0, 0, .8)",
     },
-    placement: "left-start",
+    placement: "right",
   },
   {
     // el: () => document.getElementById("error-btn") as HTMLElement,
@@ -79,21 +83,21 @@ export default defineComponent({
           开始吧
         </NButton>
         <NButton
-          style={{ transform: "translate(200px,300px)" }}
+          style={{ transform: "translate(300px,100px)" }}
           id="info-btn"
           type="info"
         >
           第一步
         </NButton>
         <NButton
-          style={{ transform: "translate(500px,500px)" }}
+          style={{ transform: "translate(600px,600px)" }}
           id="success-btn"
           type="success"
         >
           第二步
         </NButton>
         <NButton
-          style={{ transform: "translate(700px,100px)" }}
+          style={{ transform: "translate(1000px,100px)" }}
           id="warning-btn"
           type="warning"
         >
@@ -110,7 +114,7 @@ export default defineComponent({
           mask
           current={unref(current)}
           onUpdate:current={(val) => (current.value = val)}
-          padding={6}
+          padding={2}
         />
       </div>
     );

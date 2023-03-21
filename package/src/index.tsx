@@ -1,5 +1,4 @@
 import {
-  PropType,
   defineComponent,
   ref,
   unref,
@@ -11,14 +10,14 @@ import {
   onMounted,
   onUnmounted,
   Transition,
-isVNode,
+  isVNode,
 } from "vue";
 
-// mask
-import { TourMask } from "./TourMask";
-// dot
-import { TourDot } from "./TourDot";
-
+// component
+import { TourMask } from "./mask";
+import { TourDot } from "./dot";
+import { TourModalClose } from "./close";
+//   types
 import {
   TragetRect,
   ScreenRect,
@@ -26,76 +25,25 @@ import {
   MaskRectReactive,
   type Nullable,
   TourStep,
-  TransitionLifeCycleProps,
-  MaskConfig,
-} from "./type";
+} from "../types";
 // utils
-import { useTourTransition, useTourMaskSetting } from "./hooks";
-import { defaultMaskRect } from "./get-position";
-
+import { useTourTransition, useTourMaskSetting } from "../hooks";
+import { defaultMaskRect } from "../hooks/position";
+import { useTourModalTransition } from "../hooks/transition";
+//   styles
+import {
+  getDotStyleVars,
+  getMaskStyleVars,
+  getModalStyleVars,
+} from "../styles/vars";
 // style render
-import { createDialogStyle } from "./style";
-// icon svg
-import { DialogCloseSvg } from "./TourDialogClose";
-import { useTourModalTransition } from "./create-transition";
-import { isUnDef } from "./utils";
+import { createDialogStyle } from "../styles";
+// props
+import { createTourProps } from "../props";
 
 export const Tour = defineComponent({
   name: "TourQuick",
-  props: {
-    steps: {
-      type: Array as PropType<Array<TourStep>>,
-      default: () => [],
-    },
-    classPrefix: {
-      type: String as PropType<string>,
-      default: "quick",
-    },
-    mask: {
-      type: [Boolean, Object] as PropType<boolean | MaskConfig>,
-      default: true,
-    },
-    current: {
-      type: Number as PropType<number>,
-      default: 0,
-    },
-    show: {
-      type: Boolean as PropType<boolean>,
-      default: false,
-    },
-    arrow: {
-      type: Boolean as PropType<boolean>,
-      default: true,
-    },
-    padding: {
-      type: [Object, Number] as PropType<number | { x: number; y: number }>,
-      default: 5,
-    },
-    maskZIndex: {
-      type: [String, Number] as PropType<number | string>,
-      default: "1001",
-    },
-    // maskStyle: {
-    //   type: Object as PropType<Partial<CSSProperties>>,
-    //   default: undefined,
-    // },
-    // maskColor: {
-    //   type: String as PropType<string>,
-    //   default: undefined,
-    // },
-    dialogShowClose: {
-      type: Boolean as PropType<boolean>,
-      default: true,
-    },
-    modalTransition: {
-      type: Object as PropType<TransitionLifeCycleProps>,
-      default: undefined,
-    },
-    maskTransition: {
-      type: Object as PropType<TransitionLifeCycleProps>,
-      default: undefined,
-    },
-  },
+  props: createTourProps(),
   emits: [
     "update:current",
     "update:show",
@@ -109,7 +57,6 @@ export const Tour = defineComponent({
     "closed",
   ],
   setup(props, { emit, expose, slots }) {
-    const id = `${Math.random().toString(16).slice(2)}`;
     const show = ref(props.show);
     const current = ref(props.current || 0);
 
@@ -120,10 +67,13 @@ export const Tour = defineComponent({
     const arrowRect = ref<Nullable<ArrowRect>>(null);
     const maskRect = reactive<MaskRectReactive>(defaultMaskRect());
 
-        // 获取当前步骤信息
-        const getCurrentStep = computed(() => props.steps.at(unref(current)) as TourStep);
-
+    // 获取当前步骤信息
+    const getCurrentStep = computed(
+      () => props.steps[unref(current)] as TourStep
+    );
+    // modal--transition处理函数
     const __transition = useTourModalTransition(props.modalTransition);
+    // 控制上一条、下一条核心处理函数
     const { next, prev, last, load, changeStep } = useTourTransition({
       steps: props.steps,
       emit: emit,
@@ -136,12 +86,17 @@ export const Tour = defineComponent({
       screenRef,
       arrowRef,
     });
-    const { getMaskColor, getMaskWrapperStyle, getMaskShow } = useTourMaskSetting(getCurrentStep, props, show);
+    // 获取当前mask配置
+    const { getMaskColor, getMaskWrapperStyle, getMaskShow } =
+      useTourMaskSetting(getCurrentStep, props, show);
+    // css-vars
+    const dotStyleVars = getDotStyleVars(props.globalThemeOverrides);
+    const modalStyleVars = getModalStyleVars(props.globalThemeOverrides);
+    const maskStyleVars = getMaskStyleVars(props.globalThemeOverrides);
 
     // 获取当前遮罩颜色
 
- 
-    const { mount, unMount } = createDialogStyle(id, {
+    const { mount, unMount } = createDialogStyle({
       classPrefix: props.classPrefix,
       zIndex: Number(props.maskZIndex) + 1,
     });
@@ -175,12 +130,12 @@ export const Tour = defineComponent({
 
     const renderContentMessage = () => {
       const { message } = unref(getCurrentStep);
-      if(typeof message === 'string') {
+      if (typeof message === "string") {
         return message;
-      } else if(isVNode(message)) {
+      } else if (isVNode(message)) {
         return message;
-      } 
-    }
+      }
+    };
 
     watch(
       () => props.show,
@@ -222,14 +177,15 @@ export const Tour = defineComponent({
             {unref(show) && (
               <div
                 key={unref(show) ? "show" : "hidden"}
-                class={`${props.classPrefix}-tour-dialog_${id}`}
+                class={`${props.classPrefix}-tour-dialog`}
                 style={{
                   top: `${unref(screenRect)?.top}px`,
                   left: `${unref(screenRect)?.left}px`,
+                  ...unref(modalStyleVars),
                 }}
                 ref={(_ref) => (screenRef.value = _ref as Element)}
               >
-                <div class={`${props.classPrefix}-tour-content_${id}`}>
+                <div class={`${props.classPrefix}-tour-content`}>
                   {slots.default ? (
                     renderSlot(slots, "default", {
                       close: closeTour.bind(null),
@@ -244,11 +200,11 @@ export const Tour = defineComponent({
                     <>
                       {props.arrow && (
                         <div
-                          class={`${props.classPrefix}-tour-arrow_${id}`}
+                          class={`${props.classPrefix}-tour-arrow`}
                           ref={(_ref) => (arrowRef.value = _ref as Element)}
                         ></div>
                       )}
-                      <div class={`${props.classPrefix}-tour-inner_${id}`}>
+                      <div class={`${props.classPrefix}-tour-inner`}>
                         {slots.close ? (
                           renderSlot(slots, "close", {
                             close: closeTour.bind(null),
@@ -257,54 +213,65 @@ export const Tour = defineComponent({
                           })
                         ) : (
                           <span
-                            class={`${props.classPrefix}-tour-close_${id}`}
+                            class={`${props.classPrefix}-tour-close`}
                             role="img"
                             title="关闭"
                           >
-                            <DialogCloseSvg onClick={closeTour} />
+                            <TourModalClose onClick={closeTour} />
                           </span>
                         )}
-                        <div class={`${props.classPrefix}-tour-header_${id}`}>
+                        <div class={`${props.classPrefix}-tour-header`}>
                           {slots.title ? (
                             renderSlot(slots, "title", {
                               currentStep: unref(getCurrentStep),
                             })
                           ) : (
-                            <span
-                              class={`${props.classPrefix}-tour-title_${id}`}
-                            >
+                            <span class={`${props.classPrefix}-tour-title`}>
                               {unref(getCurrentStep)?.title}
                             </span>
                           )}
                         </div>
-                        <div class={`${props.classPrefix}-tour-message_${id}`}>
+                        <div class={`${props.classPrefix}-tour-message`}>
                           {slots.content
                             ? renderSlot(slots, "content", {
                                 currentStep: unref(getCurrentStep),
                               })
                             : renderContentMessage()}
                         </div>
-                        <div class={`${props.classPrefix}-tour-footer_${id}`}>
+                        <div class={`${props.classPrefix}-tour-footer`}>
                           <TourDot
                             length={props.steps.length}
                             current={unref(current)}
+                            style={unref(dotStyleVars)}
                           ></TourDot>
                           {/* 上一步 */}
                           <div>
                             {unref(current) > 0 && (
-                              <button class="tour-prev-button" title="上一步" onClick={prev}>
+                              <button
+                                class="tour-prev-button"
+                                title="上一步"
+                                onClick={prev}
+                              >
                                 上一步
                               </button>
                             )}
                             {/* 下一步 */}
                             {unref(current) < props.steps.length - 1 && (
-                              <button class="tour-next-button" title="下一步" onClick={next}>
+                              <button
+                                class="tour-next-button"
+                                title="下一步"
+                                onClick={next}
+                              >
                                 下一步
                               </button>
                             )}
 
                             {unref(current) === props.steps.length - 1 && (
-                              <button class="tour-finish-button" title="我知道了" onClick={handleFinish}>
+                              <button
+                                class="tour-finish-button"
+                                title="我知道了"
+                                onClick={handleFinish}
+                              >
                                 我知道了
                               </button>
                             )}
@@ -326,6 +293,7 @@ export const Tour = defineComponent({
           color={unref(getMaskColor)}
           wrapperStyle={unref(getMaskWrapperStyle)}
           transition={props.maskTransition}
+          style={unref(maskStyleVars)}
         />
       </div>
     );

@@ -1,5 +1,5 @@
 import { ComputedRef, computed } from "vue";
-import { TransitionLifeCycleInner, TransitionLifeCycleProps } from "./type";
+import { TransitionLifeCycleInner, TransitionLifeCycleProps } from "../types";
 
 const defaultModalTransiton: TransitionLifeCycleInner  = {
     onBeforeEnter: (el) => {
