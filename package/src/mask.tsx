@@ -8,9 +8,10 @@ import {
   onUnmounted,
   unref,
 } from "vue";
-import { TransitionLifeCycleProps, MaskRectReactive } from "../types";
+import { TransitionLifeCycleProps, MaskRectReactive, GlobalThemeOverrides } from "../types";
 import { createMaskStyle } from "../styles/index";
 import { useTourMaskTransition } from "../hooks/transition";
+import { getMaskStyleVars } from "../styles/vars";
 
 export const TourMask = defineComponent({
   name: "TourMask",
@@ -43,16 +44,18 @@ export const TourMask = defineComponent({
       type: String as PropType<string>,
       default: "quick",
     },
-    style: {
-      type: Object as PropType<CSSProperties>,
+    globalThemeOverrides: {
+      type: Object as PropType<GlobalThemeOverrides>,
       default: undefined,
     },
   },
   setup(props) {
+    const cssvarsId = Date.now().toString(16);
+    const maskStyleVars = getMaskStyleVars(props.globalThemeOverrides);
     const { mount, unMount } = createMaskStyle({
       zIndex: props.zIndex,
       classPrefix: props.classPrefix,
-    });
+    }, unref(maskStyleVars) as any, cssvarsId);
     const __transition = useTourMaskTransition(props.transition);
     onMounted(() => {
       mount();
@@ -67,8 +70,8 @@ export const TourMask = defineComponent({
           {props.show && (
             <div
               key={props.show ? "show" : "hidden"}
-              class={`${props.classPrefix}-tour-mask`}
-              style={{ ...props.wrapperStyle, ...props.style }}
+              class={`${props.classPrefix}-tour-mask css-vars-${cssvarsId}`}
+              style={props.wrapperStyle}
             >
               <svg class={`${props.classPrefix}-tour-mask-svg`}>
                 <defs>

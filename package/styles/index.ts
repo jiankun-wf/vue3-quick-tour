@@ -1,10 +1,9 @@
 import cssRender from "css-render";
 
 import { MaskCreateProps, DialogStyleProps } from "../types";
-
 const { c } = cssRender();
 
-export const createMaskStyle = (props: MaskCreateProps) => {
+export const createMaskStyle = (props: MaskCreateProps, cssVars: Record<string, string | number>, cssId: string) => {
   const style = c(
     `.${props.classPrefix}-tour-mask`,
     () => ({
@@ -15,6 +14,7 @@ export const createMaskStyle = (props: MaskCreateProps) => {
       transition: "all var(--tour-mask-duration) var(--tour-mask-bezier)",
     }),
     [
+      c(`&.css-vars-${cssId}`, () => cssVars ),
       c(`.${props.classPrefix}-tour-mask-svg`, {
         width: "100%",
         height: "100%",
@@ -32,7 +32,7 @@ export const createMaskStyle = (props: MaskCreateProps) => {
   return { mount: style.mount.bind(style), unMount: style.unmount.bind(style) };
 };
 
-export const createDialogStyle = (props: DialogStyleProps) => {
+export const createDialogStyle = (props: DialogStyleProps, cssVars: Record<string, string | number>, cssId: string) => {
   const style = c(
     `.${props.classPrefix}-tour-dialog`,
     () => ({
@@ -46,6 +46,7 @@ export const createDialogStyle = (props: DialogStyleProps) => {
       width: '476px',
     }),
     [
+      c(`&.css-vars-${cssId}`, () => cssVars ),
       c(
         `& .${props.classPrefix}-tour-content`,
         () => ({

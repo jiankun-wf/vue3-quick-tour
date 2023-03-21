@@ -92,14 +92,13 @@ export const Tour = defineComponent({
     // css-vars
     const dotStyleVars = getDotStyleVars(props.globalThemeOverrides);
     const modalStyleVars = getModalStyleVars(props.globalThemeOverrides);
-    const maskStyleVars = getMaskStyleVars(props.globalThemeOverrides);
 
     // 获取当前遮罩颜色
-
+    const cssvarsId = Date.now().toString(16);
     const { mount, unMount } = createDialogStyle({
       classPrefix: props.classPrefix,
       zIndex: Number(props.maskZIndex) + 1,
-    });
+    }, unref(modalStyleVars) as any, cssvarsId);
 
     const openTour = () => {
       show.value = true;
@@ -177,11 +176,10 @@ export const Tour = defineComponent({
             {unref(show) && (
               <div
                 key={unref(show) ? "show" : "hidden"}
-                class={`${props.classPrefix}-tour-dialog`}
+                class={`${props.classPrefix}-tour-dialog css-vars-${cssvarsId}`}
                 style={{
                   top: `${unref(screenRect)?.top}px`,
                   left: `${unref(screenRect)?.left}px`,
-                  ...unref(modalStyleVars),
                 }}
                 ref={(_ref) => (screenRef.value = _ref as Element)}
               >
@@ -293,7 +291,7 @@ export const Tour = defineComponent({
           color={unref(getMaskColor)}
           wrapperStyle={unref(getMaskWrapperStyle)}
           transition={props.maskTransition}
-          style={unref(maskStyleVars)}
+          globalThemeOverrides={props.globalThemeOverrides}
         />
       </div>
     );
