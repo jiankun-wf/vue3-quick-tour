@@ -143,7 +143,7 @@ export declare interface TourRect {
   Mask: MaskRectReactive;
   arraow?: ArrowRect;
 }
-export declare const Tour: import("vue").DefineComponent<{
+declare const Tour: import("vue").DefineComponent<{
     steps: {
         type: import("vue").PropType<TourStep[]>;
         default: () => never[];
@@ -275,3 +275,5 @@ export declare const Tour: import("vue").DefineComponent<{
     maskTransition: import("../types").TransitionLifeCycleProps<HTMLElement>;
     globalThemeOverrides: import("../types").GlobalThemeOverrides;
 }>;
+export { Tour }
+export default Tour;
