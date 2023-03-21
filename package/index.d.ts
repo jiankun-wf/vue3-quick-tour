@@ -153,7 +153,7 @@ declare const Tour: import("vue").DefineComponent<{
         default: string;
     };
     mask: {
-        type: import("vue").PropType<boolean | import("../types").MaskConfig>;
+        type: import("vue").PropType<boolean | MaskConfig>;
         default: boolean;
     };
     current: {
@@ -184,15 +184,15 @@ declare const Tour: import("vue").DefineComponent<{
         default: boolean;
     };
     modalTransition: {
-        type: import("vue").PropType<import("../types").TransitionLifeCycleProps<HTMLElement>>;
+        type: import("vue").PropType<TransitionLifeCycleProps<HTMLElement>>;
         default: undefined;
     };
     maskTransition: {
-        type: import("vue").PropType<import("../types").TransitionLifeCycleProps<HTMLElement>>;
+        type: import("vue").PropType<TransitionLifeCycleProps<HTMLElement>>;
         default: undefined;
     };
     globalThemeOverrides: {
-        type: import("vue").PropType<import("../types").GlobalThemeOverrides>;
+        type: import("vue").PropType<GlobalThemeOverrides>;
         default: undefined;
     };
 }, () => JSX.Element, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("open" | "close" | "next" | "prev" | "finish" | "update:current" | "change" | "update:show" | "opened" | "closed")[], "open" | "close" | "next" | "prev" | "finish" | "update:current" | "change" | "update:show" | "opened" | "closed", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
@@ -205,7 +205,7 @@ declare const Tour: import("vue").DefineComponent<{
         default: string;
     };
     mask: {
-        type: import("vue").PropType<boolean | import("../types").MaskConfig>;
+        type: import("vue").PropType<boolean | MaskConfig>;
         default: boolean;
     };
     current: {
@@ -236,15 +236,15 @@ declare const Tour: import("vue").DefineComponent<{
         default: boolean;
     };
     modalTransition: {
-        type: import("vue").PropType<import("../types").TransitionLifeCycleProps<HTMLElement>>;
+        type: import("vue").PropType<TransitionLifeCycleProps<HTMLElement>>;
         default: undefined;
     };
     maskTransition: {
-        type: import("vue").PropType<import("../types").TransitionLifeCycleProps<HTMLElement>>;
+        type: import("vue").PropType<TransitionLifeCycleProps<HTMLElement>>;
         default: undefined;
     };
     globalThemeOverrides: {
-        type: import("vue").PropType<import("../types").GlobalThemeOverrides>;
+        type: import("vue").PropType<GlobalThemeOverrides>;
         default: undefined;
     };
 }>> & {
@@ -263,7 +263,7 @@ declare const Tour: import("vue").DefineComponent<{
         x: number;
         y: number;
     };
-    mask: boolean | import("../types").MaskConfig;
+    mask: boolean | MaskConfig;
     show: boolean;
     classPrefix: string;
     current: number;
@@ -271,9 +271,9 @@ declare const Tour: import("vue").DefineComponent<{
     steps: TourStep[];
     maskZIndex: string | number;
     dialogShowClose: boolean;
-    modalTransition: import("../types").TransitionLifeCycleProps<HTMLElement>;
-    maskTransition: import("../types").TransitionLifeCycleProps<HTMLElement>;
-    globalThemeOverrides: import("../types").GlobalThemeOverrides;
+    modalTransition: TransitionLifeCycleProps<HTMLElement>;
+    maskTransition: TransitionLifeCycleProps<HTMLElement>;
+    globalThemeOverrides: GlobalThemeOverrides;
 }>;
 export { Tour }
 export default Tour;
