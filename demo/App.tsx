@@ -114,15 +114,30 @@ export default defineComponent({
           mask
           current={unref(current)}
           onUpdate:current={(val) => (current.value = val)}
+          onOpen={() => {
+            console.log('open')
+          }}
+          onOpened={() => {
+            console.log('opened')
+          }}
+          onClose={() => {
+            console.log('close')
+          }}
+          onClosed={() => {
+            console.log('closed')
+          }}
+          onNext={() => {
+            console.log('next');
+          }}
           padding={{ x: 8, y: 6 }}
           globalThemeOverrides={{
             common: {
               primaryColor: 'rgb(238, 79, 18)', // 主题色
               duration: 300, // 动画过渡时长
-              bezier: 'ease-in-out'
+              bezier: 'ease-in-out' // 动画表现曲线
             },
             mask: {
-              duration: 340,
+              duration: 300, 
             }
           }}
         />

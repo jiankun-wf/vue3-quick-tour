@@ -36,7 +36,7 @@ export const execute = (_transition: TransitionLifeCycleProps, duration?: number
     onEnter: (el, done) => {
       el.offsetWidth;
       _transition.onEnter?.(el);
-      done();
+      setTimeout(done, duration ?? 377);
     },
     onLeave: (el, done) => {
       _transition.onLeave?.(el);

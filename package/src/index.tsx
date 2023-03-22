@@ -33,7 +33,6 @@ import { useTourModalTransition } from "../hooks/transition";
 //   styles
 import {
   getDotStyleVars,
-  getMaskStyleVars,
   getModalStyleConfig,
   getModalStyleVars,
 } from "../styles/vars";
@@ -117,9 +116,10 @@ export const Tour = defineComponent({
 
     const closeTour = () => {
       show.value = false;
-      restRect();
       emit("update:show", false);
       emit("close");
+      restRect();
+      debugger;
     };
 
     const handleFinish = () => {
@@ -132,7 +132,6 @@ export const Tour = defineComponent({
       targetRect.value = null;
       screenRect.value = null;
       arrowRect.value = null;
-      emit("closed");
     };
 
     const renderContentMessage = () => {
@@ -147,7 +146,8 @@ export const Tour = defineComponent({
     watch(
       () => props.show,
       (val) => {
-        val ? openTour() : closeTour();
+        show.value = val;
+        val && openTour();
       }
     );
 
@@ -178,8 +178,11 @@ export const Tour = defineComponent({
           <Transition
             {...(unref(__transition) as any)}
             css={false}
-            onAfterEnter={emit("opened")}
-            onAfterLeave={restRect}
+            onAfterEnter={emit.bind(null, 'opened')}
+            onAfterLeave={() => {
+              restRect();
+              emit('closed');
+            }}
           >
             {unref(show) && (
               <div
@@ -197,8 +200,8 @@ export const Tour = defineComponent({
                       close: closeTour.bind(null),
                       current: unref(current),
                       currentStep: unref(getCurrentStep),
-                      next,
-                      prev,
+                      next: next.bind(null),
+                      prev: prev.bind(null),
                       last,
                       steps: props.steps,
                     })
@@ -256,7 +259,7 @@ export const Tour = defineComponent({
                               <button
                                 class="tour-prev-button"
                                 title="上一步"
-                                onClick={prev}
+                                onClick={prev.bind(null)}
                               >
                                 上一步
                               </button>
@@ -266,7 +269,7 @@ export const Tour = defineComponent({
                               <button
                                 class="tour-next-button"
                                 title="下一步"
-                                onClick={next}
+                                onClick={next.bind(null)}
                               >
                                 下一步
                               </button>
