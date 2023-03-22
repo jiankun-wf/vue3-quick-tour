@@ -189,7 +189,11 @@ export const createDialogStyle = (props: DialogStyleProps, cssVars: Record<strin
                   fontSize: 'var(--tour-border)',
                   transition: 'border var(--tour-duration) var(--tour-bezier)',
                   padding: '8px 12px',
-                }),
+                }, [
+                  c(`&:hover`, {
+                    borderColor: 'var(--tour-primary-color)',
+                  })
+                ]),
               ]),
             ]
           ),

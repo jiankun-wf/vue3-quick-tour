@@ -54,8 +54,9 @@ export const getModalStyleVars = (
         modal: propsModal = {},
         button: propsButton = {},
       } = themeOverrides;
-      Object.assign(modal, common, propsCommon, propsModal);
-      Object.assign(button, common, propsCommon, propsButton);
+      Object.assign(common, propsCommon);
+      Object.assign(modal, common, propsModal);
+      Object.assign(button, common, propsButton);
     }
     const {
       closeIconBackgroundColor,
@@ -75,6 +76,7 @@ export const getModalStyleVars = (
       borderRadiusLarge,
       borderRadiusSmall,
     } = common;
+    debugger;
     const { primaryColor: _buttonPrimaryColor, height } = button;
     return {
       "--tour-modal-close-width": `${closeIconSize}px`,

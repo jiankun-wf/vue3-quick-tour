@@ -22,19 +22,21 @@
 
 ### 2. props
 
-|      属性       |               传值                |  默认值   |             说明             |
-| :-------------: | :-------------------------------: | :-------: | :--------------------------: |
-|      steps      |            TourStep[]             |    [ ]    |       每步的配置，必填       |
-|   classPrefix   |              string               |  "quick"  |       全局 class 前缀        |
-|      mask       |       boolean / MaskConfig        |   true    |        全局 mask 配置        |
-| v-model:current |              number               |     0     |   当前步骤，支持非受控模式   |
-|  v-model:show   |              boolean              |   false   | 是否展示引导，支持非受控模式 |
-|      arrow      |              boolean              |   true    |         是否展示箭头         |
-|     padding     | number / { x: number, y: number } |     5     |    指引元素的水平垂直边距    |
-|   maskZIndex    |          number / string          |   1001    |     遮罩层的 z-index 值      |
-| dialogShowClose |              boolean              |   true    |      是否展示关闭 icon       |
-| modalTransition |     TransitionLifeCycleProps      | undefined |        自定义弹框动画        |
-| maskTransition  |     TransitionLifeCycleProps      | undefined |        自定义遮罩动画        |
+|         属性         |               传值                |  默认值   |             说明             |
+| :------------------: | :-------------------------------: | :-------: | :--------------------------: |
+|        steps         |            TourStep[]             |    [ ]    |       每步的配置，必填       |
+|     classPrefix      |              string               |  "quick"  |       全局 class 前缀        |
+|         mask         |       boolean / MaskConfig        |   true    |        全局 mask 配置        |
+|   v-model:current    |              number               |     0     |   当前步骤，支持非受控模式   |
+|     v-model:show     |              boolean              |   false   | 是否展示引导，支持非受控模式 |
+|        arrow         |              boolean              |   true    |         是否展示箭头         |
+|       padding        | number / { x: number, y: number } |     5     |    指引元素的水平垂直边距    |
+|      maskZIndex      |          number / string          |   1001    |     遮罩层的 z-index 值      |
+|   dialogShowClose    |              boolean              |   true    |      是否展示关闭 icon       |
+|   modalTransition    |     TransitionLifeCycleProps      | undefined |        自定义弹框动画        |
+|    maskTransition    |     TransitionLifeCycleProps      | undefined |        自定义遮罩动画        |
+|    maskTransition    |     TransitionLifeCycleProps      | undefined |        自定义遮罩动画        |
+| globalThemeOverrides |       GlobalThemeOverrides        |     -     |        自定义主题配置        |
 
 ### 3. 详细配置说明
 
@@ -66,6 +68,51 @@
 | onBeforeEnter | (el: HTMLElement) => void | el.style.transform = "scale(1.06, 1.06)"; el.style.opacity = '0';                                          | 进入开始的状态，形同 v-enter-from |
 |    onEnter    | (el: HTMLElement) => void | el.style.transform = "scale(1, 1)"; el.style.opacity = '1'                                                 | 进入结束的状态                    |
 |    onLeave    | (el: HTMLElement) => void | 　 el.style.transformOrigin = "bottom left"; el.style.transform = "scale(0, 0)";　 el.style.opacity = "0"; | 离开的结束状态                    |
+
+#### 4. GlobalThemeOverrides
+
+```
+interface GlobalThemeOverrides {
+ common?: {
+   primaryColor?: string;
+   bezier?: string;
+   lineHeight?: number | string;
+   duration?: number;
+   borderRadiusSmall?: string;
+   borderRadius?: string;
+   borderRadiusLarge?: string;
+   borderColor?: string;
+ };
+ dot?: {
+   backgroundColor?: string;
+   primaryColor?: string;
+   size?: number;
+   bezier?: string;
+   duration?: number;
+   gap?: number;
+ };
+ modal?: {
+   closeIconSize?: number;
+   closeIconBackgroundColor?: string;
+   titleFontSize?: string;
+   titleFontWeight?: string;
+   lineHeight?: string | number;
+   bezier?: string;
+   duration?: number;
+   backgroundColor?: string;
+   color?: string;
+ };
+ mask?: {
+   bezier?: string;
+   duration?: number;
+ };
+ button?: {
+   primaryColor?: string;
+   height?: string;
+ };
+}
+
+```
 
 ### 4. emits
 

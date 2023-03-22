@@ -1,6 +1,7 @@
 import { defineComponent, h, unref } from "vue";
 import { NButton, NGradientText } from "naive-ui";
 import { Tour, type TourStep } from "../package/index";
+// import { Tour, TourStep } from 'vue3-quick-tour'
 import { ref } from "vue";
 
 const steps: TourStep[] = [
@@ -114,6 +115,11 @@ export default defineComponent({
           current={unref(current)}
           onUpdate:current={(val) => (current.value = val)}
           padding={{ x: 8, y: 6 }}
+          globalThemeOverrides={{
+            common: {
+              primaryColor: 'rgb(238, 79, 18)',
+            }
+          }}
         />
       </div>
     );
