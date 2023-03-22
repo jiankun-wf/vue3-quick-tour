@@ -117,7 +117,12 @@ export default defineComponent({
           padding={{ x: 8, y: 6 }}
           globalThemeOverrides={{
             common: {
-              primaryColor: 'rgb(238, 79, 18)',
+              primaryColor: 'rgb(238, 79, 18)', // 主题色
+              duration: 300, // 动画过渡时长
+              bezier: 'ease-in-out'
+            },
+            mask: {
+              duration: 340,
             }
           }}
         />

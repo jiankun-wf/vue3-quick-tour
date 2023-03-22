@@ -11,7 +11,7 @@ import {
 import { TransitionLifeCycleProps, MaskRectReactive, GlobalThemeOverrides } from "../types";
 import { createMaskStyle } from "../styles/index";
 import { useTourMaskTransition } from "../hooks/transition";
-import { getMaskStyleVars } from "../styles/vars";
+import { getMaskConfig, getMaskStyleVars } from "../styles/vars";
 
 export const TourMask = defineComponent({
   name: "TourMask",
@@ -56,7 +56,7 @@ export const TourMask = defineComponent({
       zIndex: props.zIndex,
       classPrefix: props.classPrefix,
     }, unref(maskStyleVars) as any, cssvarsId);
-    const __transition = useTourMaskTransition(props.transition);
+    const __transition = useTourMaskTransition(props.transition, getMaskConfig(props.globalThemeOverrides).duration as number);
     onMounted(() => {
       mount();
     });

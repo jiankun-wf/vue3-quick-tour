@@ -40,24 +40,29 @@ export const defaultCssVars: Required<GlobalThemeOverrides> = {
   },
 };
 
+export const getModalStyleConfig = (   themeOverrides?: GlobalThemeOverrides) => {
+  const { common, modal, button } = defaultCssVars;
+  if (isUnDef(themeOverrides)) {
+    Object.assign(modal, common);
+    Object.assign(button, common);
+  } else {
+    const {
+      common: propsCommon = {},
+      modal: propsModal = {},
+      button: propsButton = {},
+    } = themeOverrides;
+    Object.assign(common, propsCommon);
+    Object.assign(modal, common, propsModal);
+    Object.assign(button, common, propsButton);
+  }
+  return { common, modal, button };
+}
+
 export const getModalStyleVars = (
   themeOverrides?: GlobalThemeOverrides
 ): ComputedRef<CSSProperties> => {
   return computed(() => {
-    const { common, modal, button } = defaultCssVars;
-    if (isUnDef(themeOverrides)) {
-      Object.assign(modal, common);
-      Object.assign(button, common);
-    } else {
-      const {
-        common: propsCommon = {},
-        modal: propsModal = {},
-        button: propsButton = {},
-      } = themeOverrides;
-      Object.assign(common, propsCommon);
-      Object.assign(modal, common, propsModal);
-      Object.assign(button, common, propsButton);
-    }
+    const { common, modal, button } = getModalStyleConfig(themeOverrides);
     const {
       closeIconBackgroundColor,
       closeIconSize,
@@ -76,7 +81,6 @@ export const getModalStyleVars = (
       borderRadiusLarge,
       borderRadiusSmall,
     } = common;
-    debugger;
     const { primaryColor: _buttonPrimaryColor, height } = button;
     return {
       "--tour-modal-close-width": `${closeIconSize}px`,
@@ -108,7 +112,8 @@ export const getDotStyleVars = (
       Object.assign(dot, common);
     } else {
       const { common: propsCommon = {}, dot: propsDot = {} } = themeOverrides;
-      Object.assign(dot, common, propsCommon, propsDot);
+      Object.assign(common, propsCommon);
+      Object.assign(dot, common, propsDot);
     }
     const { size, primaryColor, backgroundColor, duration, bezier, gap } = dot;
     return {
@@ -123,18 +128,22 @@ export const getDotStyleVars = (
   });
 };
 
+export const getMaskConfig = (themeOverrides?: GlobalThemeOverrides) => {
+  const { common, mask } = defaultCssVars;
+  if (isUnDef(themeOverrides)) {
+    Object.assign(mask, common);
+  } else {
+    const { common: propsCommon = {}, mask: propsMask = {} } = themeOverrides;
+    Object.assign(mask, common, propsCommon, propsMask);
+  }
+  return mask;
+}
+
 export const getMaskStyleVars = (
     themeOverrides?: GlobalThemeOverrides
   ): ComputedRef<CSSProperties> => {
     return computed(() => {
-      const { common, mask } = defaultCssVars;
-      if (isUnDef(themeOverrides)) {
-        Object.assign(mask, common);
-      } else {
-        const { common: propsCommon = {}, mask: propsMask = {} } = themeOverrides;
-        Object.assign(mask, common, propsCommon, propsMask);
-      }
-      const { duration, bezier } = mask;
+      const { duration, bezier } = getMaskConfig(themeOverrides);
       return {
        '--tour-mask-duration': `${duration}ms`,
        '--tour-mask-bezier': `${bezier}`,

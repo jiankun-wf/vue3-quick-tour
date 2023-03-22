@@ -13,7 +13,6 @@
 1. vue3 + tsx。
 2. css-render 不生成 css 文件，也无需引入。
 3. transition-hooks 自定义遮罩动画、弹出框动画。
-
 4. 指定位置，以及自动定位（差 arrow）。
 
 5. 自定义位置（next v2.0）。

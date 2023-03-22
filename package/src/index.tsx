@@ -34,6 +34,7 @@ import { useTourModalTransition } from "../hooks/transition";
 import {
   getDotStyleVars,
   getMaskStyleVars,
+  getModalStyleConfig,
   getModalStyleVars,
 } from "../styles/vars";
 // style render
@@ -72,7 +73,10 @@ export const Tour = defineComponent({
       () => props.steps[unref(current)] as TourStep
     );
     // modal--transition处理函数
-    const __transition = useTourModalTransition(props.modalTransition);
+    const __transition = useTourModalTransition(
+      props.modalTransition,
+      getModalStyleConfig(props.globalThemeOverrides).common?.duration
+    );
     // 控制上一条、下一条核心处理函数
     const { next, prev, last, load, changeStep } = useTourTransition({
       steps: props.steps,
@@ -95,10 +99,14 @@ export const Tour = defineComponent({
 
     // 获取当前遮罩颜色
     const cssvarsId = Date.now().toString(16);
-    const { mount, unMount } = createDialogStyle({
-      classPrefix: props.classPrefix,
-      zIndex: Number(props.maskZIndex) + 1,
-    }, unref(modalStyleVars) as any, cssvarsId);
+    const { mount, unMount } = createDialogStyle(
+      {
+        classPrefix: props.classPrefix,
+        zIndex: Number(props.maskZIndex) + 1,
+      },
+      unref(modalStyleVars) as any,
+      cssvarsId
+    );
 
     const openTour = () => {
       show.value = true;
