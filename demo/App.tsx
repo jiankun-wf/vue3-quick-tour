@@ -1,8 +1,7 @@
 import { defineComponent, h, unref } from "vue";
-import { NButton, NGradientText, NSwitch } from "naive-ui";
-import { Tour } from "../package/index";
+import { NButton, NGradientText } from "naive-ui";
+import { Tour, type TourStep } from "../package/index";
 import { ref } from "vue";
-import { TourStep } from "../package/index";
 
 const steps: TourStep[] = [
   {
@@ -12,7 +11,7 @@ const steps: TourStep[] = [
     mask: {
       color: "rgba(0, 0, 0, .8)",
     },
-    placement: "right",
+    placement: "top",
   },
   {
     el: () => document.getElementById("success-btn") as HTMLElement,
@@ -114,7 +113,7 @@ export default defineComponent({
           mask
           current={unref(current)}
           onUpdate:current={(val) => (current.value = val)}
-          padding={2}
+          padding={{ x: 8, y: 6 }}
         />
       </div>
     );

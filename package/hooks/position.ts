@@ -6,7 +6,7 @@ import {
   MaskRectReactive,
   TragetRect,
 } from "../types";
-import { isUnDef, getNoMinusNumber } from "../utils";
+import { isUnDef, getNoMinusNumber, getOffset } from "../utils";
 
 export const getTargetRect = (
   el: null | (() => HTMLElement)
@@ -121,38 +121,21 @@ export const getScreenRect = async (
     return { screen: defaultScreenRect, arrow: null };
   }
   //   TODO 位置算法
-  if (isUnDef(arrowRef)) {
-    const { x, y } = await computePosition(targetEl(), screenRef, {
-      placement: placement,
-      middleware: [
-        flip({
-          fallbackStrategy: "bestFit",
-        }),
-        offset(12),
-      ],
-    });
-    defaultScreenRect.left = x;
-    defaultScreenRect.top = y;
-  } else {
-    const { x, y, middlewareData } = await computePosition(
-      targetEl(),
-      screenRef,
-      {
-        placement: placement,
-        middleware: [
-          flip({
-            fallbackStrategy: "bestFit",
-          }),
-          offset(12),
-          arrow({ element: arrowRef }),
-        ],
-      }
-    );
-    defaultScreenRect.left = x;
-    defaultScreenRect.top = y;
-    defaultArrowRect.left = middlewareData.arrow?.x ?? 0;
-    defaultArrowRect.top = middlewareData.arrow?.y ?? 0;
-  }
+  const { x, y, middlewareData, placement: _resultPlacement } = await computePosition(targetEl(), screenRef, {
+    placement: placement,
+    middleware: [
+      flip({
+        fallbackStrategy: "bestFit",
+      }),
+      offset({ mainAxis: getOffset(placement, offsetX, offsetY) }),
+      !isUnDef(arrowRef) && arrow({ element: arrowRef })
+    ],
+  });
+  
+  defaultScreenRect.left = x;
+  defaultScreenRect.top = y;
+  defaultArrowRect.left = middlewareData?.arrow?.x ?? 0;
+  defaultArrowRect.top = middlewareData?.arrow?.y ?? 0;
 
   return {
     screen: defaultScreenRect,

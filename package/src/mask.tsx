@@ -85,7 +85,7 @@ export const TourMask = defineComponent({
                     ></rect>
                     <rect
                       fill="black"
-                      rx="4"
+                      rx="2"
                       x={props.maskRect.center!.left}
                       y={props.maskRect.center!.top}
                       width={props.maskRect.center!.width}

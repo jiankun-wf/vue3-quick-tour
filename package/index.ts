@@ -1,4 +1,4 @@
 
-export { Tour } from './src/index';
+export { Tour, Tour as default } from './src/index';
 
-export * from './types';
+export type * from './types';
