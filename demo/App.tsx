@@ -1,6 +1,8 @@
 import { defineComponent, h, unref } from "vue";
 import { NButton, NGradientText } from "naive-ui";
-import { Tour, type TourStep } from "../package/index";
+import { type TourStep } from "../package/index";
+import { Tour } from "../package/index";
+// import { Tour } from '../es/index';
 // import { Tour, TourStep } from 'vue3-quick-tour'
 import { ref } from "vue";
 
