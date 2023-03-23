@@ -61,6 +61,24 @@ const steps: TourStep[] = [
       color: "rgba(0, 0, 0, 1)",
     },
   },
+  {
+    el: () => document.getElementById("open-tour") as HTMLElement,
+    title: "回到梦开始的地方",
+    message: h(
+      NGradientText,
+      {
+        type: "info",
+        size: "30",
+      },
+      {
+        default: () => "点我重新开始",
+      }
+    ),
+    mask: {
+      color: "rgba(0, 0, 0, .8)",
+    },
+    placement: 'bottom-end',
+  },
 ];
 
 export default defineComponent({
@@ -77,6 +95,7 @@ export default defineComponent({
       <div>
         <NButton
           type="default"
+          id="open-tour"
           onClick={handleOpenTour}
           style="margin-bottom: 20px"
         >
@@ -133,12 +152,13 @@ export default defineComponent({
           globalThemeOverrides={{
             common: {
               primaryColor: 'rgb(238, 79, 18)', // 主题色
-              duration: 300, // 动画过渡时长
-              bezier: 'ease-in-out' // 动画表现曲线
+              duration: 400, // 动画过渡时长
+              // bezier: 'linear', // 动画表现曲线
+              borderRadius: '8px'
             },
             mask: {
-              duration: 300, 
-            }
+              duration: 400, 
+            },
           }}
         />
       </div>

@@ -36,11 +36,11 @@ export const TourDot = defineComponent({
     });
 
     onMounted(() => {
-      mount();
+      mount({ id: 'tour-dot' });
     });
 
     onUnmounted(() => {
-      unMount();
+      unMount({ id: 'tour-dot' });
     });
 
     return () => (

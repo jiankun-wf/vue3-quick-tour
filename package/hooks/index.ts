@@ -108,7 +108,6 @@ export const useTourTransition = (args: TourResolverCoreArgument) => {
 
   const next = () => {
     const result = changeStep(unref(current) + 1);
-    debugger;
     result && emit("next", unref(current), getCurrentStep());
   };
 

@@ -58,11 +58,11 @@ export const TourMask = defineComponent({
     }, unref(maskStyleVars) as any, cssvarsId);
     const __transition = useTourMaskTransition(props.transition, getMaskConfig(props.globalThemeOverrides).duration as number);
     onMounted(() => {
-      mount();
+      mount({ id: 'tour-mask' });
     });
 
     onUnmounted(() => {
-      unMount();
+      unMount({ id: 'tour-mask' });
     });
     return () => (
       <Teleport to="body">

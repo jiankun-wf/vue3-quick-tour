@@ -4,20 +4,42 @@
 
 ## antd 的感觉有点生硬，没有过度效果 https://ant-design.antgroup.com/components/tour-cn
 
-## intro.js 样式不太好
+## demo https://codesandbox.io/p/sandbox/elated-solomon-uqfc8e?file=%2Fsrc%2FApp.vue
 
-## 围绕客户端做的基建
+## 用法
+
+```
+ npm install vue3-quick-tour -D
+ yarn add vue3-quick-tour -D
+ pnpm add vue3-quick-tour -D
+```
+
+```
+ <script setup lang="ts">
+   import { Tour, type TourStep } from 'vue3-quick-tour'
+
+   const steps: TourStep[] = [
+     el: null,
+     title: 'hello',
+     message: '您好，这是一个基础示例',
+   ]
+ </script>
+ <template>
+   <Tour :steps="steps" :show="true" :current="0" />
+ </template>
+```
 
 ### 1. 特点
 
 1. vue3 + tsx。
 2. css-render 不生成 css 文件，也无需引入。
 3. transition-hooks 自定义遮罩动画、弹出框动画。
-4. 指定位置，以及自动定位（差 arrow）。
-
-5. 自定义位置（next v2.0）。
-6. 自定义主题，以及 dark mode （next v2.0）。
-7. 每步支持多个节点（？？？ 产品，听我说谢谢你 next v99.0）。
+4. 可配置自定义主题，完美融入您的系统。
+5. 12个定位可选，也支持自动定位。
+ 
+feature：
+6. 自定义位置...
+7. dark mode...
 
 ### 2. props
 

@@ -119,7 +119,6 @@ export const Tour = defineComponent({
       emit("update:show", false);
       emit("close");
       restRect();
-      debugger;
     };
 
     const handleFinish = () => {
@@ -159,11 +158,11 @@ export const Tour = defineComponent({
     );
 
     onMounted(() => {
-      mount();
+      mount({ id: 'tour-dialog' });
     });
 
     onUnmounted(() => {
-      unMount();
+      unMount({ id: 'tour-dialog' });
     });
 
     expose({

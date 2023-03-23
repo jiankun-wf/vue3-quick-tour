@@ -40,7 +40,7 @@ export const createDialogStyle = (props: DialogStyleProps, cssVars: Record<strin
       zIndex: props.zIndex,
       boxSizing: "border-box",
       backgroundColor: "var(--tour-modal-background)",
-      borderRadius: "4px",
+      borderRadius: "var(--tour-border-radius)",
       transition: "all var(--tour-duration) var(--tour-bezier)",
       color: "var(--tour-text-color)",
       width: '476px',
