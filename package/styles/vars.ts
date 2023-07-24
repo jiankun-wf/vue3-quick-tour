@@ -38,9 +38,12 @@ export const defaultCssVars: Required<GlobalThemeOverrides> = {
     primaryColor: undefined,
     height: "30px",
   },
+  arrow: {
+    size: 16,
+  }
 };
 
-export const getModalStyleConfig = (   themeOverrides?: GlobalThemeOverrides) => {
+export const getModalStyleConfig = (themeOverrides?: GlobalThemeOverrides) => {
   const { common, modal, button } = defaultCssVars;
   if (isUnDef(themeOverrides)) {
     Object.assign(modal, common);
@@ -140,13 +143,13 @@ export const getMaskConfig = (themeOverrides?: GlobalThemeOverrides) => {
 }
 
 export const getMaskStyleVars = (
-    themeOverrides?: GlobalThemeOverrides
-  ): ComputedRef<CSSProperties> => {
-    return computed(() => {
-      const { duration, bezier } = getMaskConfig(themeOverrides);
-      return {
-       '--tour-mask-duration': `${duration}ms`,
-       '--tour-mask-bezier': `${bezier}`,
-      };
-    });
-  };
+  themeOverrides?: GlobalThemeOverrides
+): ComputedRef<CSSProperties> => {
+  return computed(() => {
+    const { duration, bezier } = getMaskConfig(themeOverrides);
+    return {
+      '--tour-mask-duration': `${duration}ms`,
+      '--tour-mask-bezier': `${bezier}`,
+    };
+  });
+};

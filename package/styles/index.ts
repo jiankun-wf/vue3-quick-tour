@@ -3,7 +3,11 @@ import cssRender from "css-render";
 import { MaskCreateProps, DialogStyleProps } from "../types";
 const { c } = cssRender();
 
-export const createMaskStyle = (props: MaskCreateProps, cssVars: Record<string, string | number>, cssId: string) => {
+export const createMaskStyle = (
+  props: MaskCreateProps,
+  cssVars: Record<string, string | number>,
+  cssId: string
+) => {
   const style = c(
     `.${props.classPrefix}-tour-mask`,
     () => ({
@@ -14,7 +18,7 @@ export const createMaskStyle = (props: MaskCreateProps, cssVars: Record<string, 
       transition: "all var(--tour-mask-duration) var(--tour-mask-bezier)",
     }),
     [
-      c(`&.css-vars-${cssId}`, () => cssVars ),
+      c(`&.css-vars-${cssId}`, () => cssVars),
       c(`.${props.classPrefix}-tour-mask-svg`, {
         width: "100%",
         height: "100%",
@@ -32,7 +36,11 @@ export const createMaskStyle = (props: MaskCreateProps, cssVars: Record<string, 
   return { mount: style.mount.bind(style), unMount: style.unmount.bind(style) };
 };
 
-export const createDialogStyle = (props: DialogStyleProps, cssVars: Record<string, string | number>, cssId: string) => {
+export const createDialogStyle = (
+  props: DialogStyleProps,
+  cssVars: Record<string, string | number>,
+  cssId: string
+) => {
   const style = c(
     `.${props.classPrefix}-tour-dialog`,
     () => ({
@@ -43,10 +51,9 @@ export const createDialogStyle = (props: DialogStyleProps, cssVars: Record<strin
       borderRadius: "var(--tour-border-radius)",
       transition: "all var(--tour-duration) var(--tour-bezier)",
       color: "var(--tour-text-color)",
-      width: '476px',
     }),
     [
-      c(`&.css-vars-${cssId}`, () => cssVars ),
+      c(`&.css-vars-${cssId}`, () => cssVars),
       c(
         `& .${props.classPrefix}-tour-content`,
         () => ({
@@ -64,7 +71,7 @@ export const createDialogStyle = (props: DialogStyleProps, cssVars: Record<strin
               overflow: "hidden",
             },
             [
-              c(`&::before`, {
+              c(`&:before`, {
                 position: "absolute",
                 bottom: "0",
                 insetInlineStart: "0",
@@ -73,10 +80,10 @@ export const createDialogStyle = (props: DialogStyleProps, cssVars: Record<strin
                 height: "8px",
                 background: "#FFF",
                 clipPath: `path('M 0 8 A 4 4 0 0 0 2.82842712474619 6.82842712474619 L 6.585786437626905 3.0710678118654755 A 2 2 0 0 1 9.414213562373096 3.0710678118654755 L 13.17157287525381 6.82842712474619 A 4 4 0 0 0 16 8 Z')`,
-                content: "",
+                content: "''",
               }),
-              c(`&::after`, {
-                content: "",
+              c(`&:after`, {
+                content: "''",
                 position: "absolute",
                 width: "9px",
                 height: "9px",
@@ -97,7 +104,7 @@ export const createDialogStyle = (props: DialogStyleProps, cssVars: Record<strin
               flexDirection: "column",
               minWidth: "400px",
               boxSizing: "border-box",
-              lineHeight: "var(--tour-lineheight)",
+              lineHeight: "var(--tour-line-height)",
             },
             [
               //  close icon
@@ -111,7 +118,8 @@ export const createDialogStyle = (props: DialogStyleProps, cssVars: Record<strin
                   outline: "none",
                   width: "var(--tour-modal-close-width)",
                   height: "var(--tour-modal-close-height)",
-                  transition: "background-color var(--tour-duration) var(--tour-bezier)",
+                  transition:
+                    "background-color var(--tour-duration) var(--tour-bezier)",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
@@ -138,63 +146,77 @@ export const createDialogStyle = (props: DialogStyleProps, cssVars: Record<strin
               c(`.${props.classPrefix}-tour-message`, {
                 padding: "0px 16px 0",
               }),
-              c(`.${props.classPrefix}-tour-footer`, {
-                padding: "16px 16px 16px",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }, [
-                c(`.tour-prev-button`, {
-                   margin: '0',
-                   lineHeight: '1',
-                   whiteSpace: 'nowrap',
-                   cursor: 'pointer',
-                   backgroundColor: '#fff',
-                   height: 'var(--tour-button-height)',
-                   outline: 'none',
-                   border: '1px solid var(--tour-border-color)',
-                   borderRadius: 'var(--tour-border-radius)',
-                   fontSize: 'var(--tour-border)',
-                   padding: '8px 12px',
-                   transition: 'border var(--tour-duration) var(--tour-bezier)',
-                }, [
-                  c(`&:hover`, {
-                    borderColor: 'var(--tour-primary-color)',
-                  })
-                ]),
-                c(`.tour-next-button`, {
-                  margin: '0 0 0 10px',
-                  lineHeight: '1',
-                  whiteSpace: 'nowrap',
-                  cursor: 'pointer',
-                  backgroundColor: 'var(--tour-primary-color)',
-                  height: 'var(--tour-button-height)',
-                  outline: 'none',
-                  border: '1px solid var(--tour-primary-color)',
-                  borderRadius: 'var(--tour-border-radius)',
-                  color: '#fff',
-                  padding: '8px 12px',
-                }),
-                c(`.tour-finish-button`, {
-                  margin: '0 0 0 10px',
-                  lineHeight: '1',
-                  whiteSpace: 'nowrap',
-                  cursor: 'pointer',
-                  backgroundColor: '#fff',
-                  height: 'var(--tour-button-height)',
-                  outline: 'none',
-                  border: '1px solid var(--tour-border-color)',
-                  borderRadius: 'var(--tour-border-radius)',
-                  fontSize: 'var(--tour-border)',
-                  transition: 'border var(--tour-duration) var(--tour-bezier)',
-                  padding: '8px 12px',
-                }, [
-                  c(`&:hover`, {
-                    borderColor: 'var(--tour-primary-color)',
-                  })
-                ]),
-              ]),
+              c(
+                `.${props.classPrefix}-tour-footer`,
+                {
+                  padding: "16px 16px 16px",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                },
+                [
+                  c(
+                    `.tour-prev-button`,
+                    {
+                      margin: "0",
+                      lineHeight: "1",
+                      whiteSpace: "nowrap",
+                      cursor: "pointer",
+                      backgroundColor: "#fff",
+                      height: "var(--tour-button-height)",
+                      outline: "none",
+                      border: "1px solid var(--tour-border-color)",
+                      borderRadius: "var(--tour-border-radius)",
+                      fontSize: "var(--tour-border)",
+                      padding: "8px 12px",
+                      transition:
+                        "border var(--tour-duration) var(--tour-bezier)",
+                    },
+                    [
+                      c(`&:hover`, {
+                        borderColor: "var(--tour-primary-color)",
+                      }),
+                    ]
+                  ),
+                  c(`.tour-next-button`, {
+                    margin: "0 0 0 10px",
+                    lineHeight: "1",
+                    whiteSpace: "nowrap",
+                    cursor: "pointer",
+                    backgroundColor: "var(--tour-primary-color)",
+                    height: "var(--tour-button-height)",
+                    outline: "none",
+                    border: "1px solid var(--tour-primary-color)",
+                    borderRadius: "var(--tour-border-radius)",
+                    color: "#fff",
+                    padding: "8px 12px",
+                  }),
+                  c(
+                    `.tour-finish-button`,
+                    {
+                      margin: "0 0 0 10px",
+                      lineHeight: "1",
+                      whiteSpace: "nowrap",
+                      cursor: "pointer",
+                      backgroundColor: "#fff",
+                      height: "var(--tour-button-height)",
+                      outline: "none",
+                      border: "1px solid var(--tour-border-color)",
+                      borderRadius: "var(--tour-border-radius)",
+                      fontSize: "var(--tour-border)",
+                      transition:
+                        "border var(--tour-duration) var(--tour-bezier)",
+                      padding: "8px 12px",
+                    },
+                    [
+                      c(`&:hover`, {
+                        borderColor: "var(--tour-primary-color)",
+                      }),
+                    ]
+                  ),
+                ]
+              ),
             ]
           ),
         ]
@@ -221,7 +243,8 @@ export const createTourDotsStyle = () => {
           borderRadius: "var(--tour-dot-width)",
           backgroundColor: "var(--tour-dot-background)",
           cursor: "default",
-          transition: "background-color var(--tour-dot-duration) var(--tour-dot-bezier)",
+          transition:
+            "background-color var(--tour-dot-duration) var(--tour-dot-bezier)",
         },
         [
           c(`&.is-active`, {

@@ -107,12 +107,6 @@ export const getScreenRect = async (
   offsetY: number
 ): Promise<{ screen: ScreenRect; arrow: Nullable<ArrowRect> }> => {
   const defaultScreenRect: ScreenRect = { top: 0, left: 0 };
-  const defaultArrowRect: ArrowRect = {
-    top: 0,
-    left: 0,
-    direction: "left",
-    size: 16,
-  };
   // 没有指引目标，则为全屏居中
   if (isUnDef(targetEl)) {
     const screenRect = screenRef.getBoundingClientRect();
@@ -121,37 +115,105 @@ export const getScreenRect = async (
     return { screen: defaultScreenRect, arrow: null };
   }
   //   TODO 位置算法
-  const { x, y, middlewareData, placement: _resultPlacement } = await computePosition(targetEl(), screenRef, {
+  const {
+    x,
+    y,
+    middlewareData,
+    placement: _resultPlacement,
+  } = await computePosition(targetEl(), screenRef, {
     placement: placement,
     middleware: [
       flip({
         fallbackStrategy: "bestFit",
       }),
       offset({ mainAxis: getOffset(placement, offsetX, offsetY) }),
-      !isUnDef(arrowRef) && arrow({ element: arrowRef })
+      !isUnDef(arrowRef) && arrow({ element: arrowRef }),
     ],
   });
-  
-  defaultScreenRect.left = x;
-  defaultScreenRect.top = y;
-  defaultArrowRect.left = middlewareData?.arrow?.x ?? 0;
-  defaultArrowRect.top = middlewareData?.arrow?.y ?? 0;
+
+  const {
+    offset: { x: offset_x, y: offset_y } = {},
+    arrow: { x: arrowX, y: arrowY, centerOffset: arrow_center_offset } = {},
+  } = middlewareData;
+  defaultScreenRect.left =
+    x + getOffsetNumberResult(_resultPlacement, offset_x ?? 0);
+  defaultScreenRect.top =
+    y + getOffsetNumberResult(_resultPlacement, offset_y ?? 0);
 
   return {
     screen: defaultScreenRect,
-    arrow: defaultArrowRect,
+    arrow: getArrowRectPosition(_resultPlacement, {
+      x: arrowX ?? 0,
+      y: arrowY ?? 0,
+      centerOffset: arrow_center_offset ?? 0,
+    }),
   };
 };
 
-export const getArrowRect = (
-  targetRect: Nullable<TragetRect>,
-  screenRect: ScreenRect,
-  placement: TourItemPlacement
-): ArrowRect => {
-  return {
-    direction: placement,
-    top: 0,
-    left: 0,
-    size: 10,
-  };
+const getArrowRectPosition = (
+  place: TourItemPlacement,
+  { x, y, centerOffset }: { x: number; y: number; centerOffset: number }
+) => {
+  switch (place) {
+    case "top":
+    case "top-start":
+    case "top-end":
+      return {
+        bottom: -16,
+        left: x - centerOffset,
+        top: "uset",
+        right: "uset",
+      };
+    case "bottom":
+    case "bottom-start":
+    case "bottom-end":
+      return {
+        top: -16,
+        left: x - centerOffset,
+        right: "uset",
+        bottom: "uset",
+      };
+    case "left":
+    case "left-start":
+    case "left-end":
+      return {
+        right: -16,
+        top: y - centerOffset,
+        left: "uset",
+        bottom: "uset",
+      };
+    case "right":
+    case "right-start":
+    case "right-end":
+      return {
+        left: -16,
+        top: y - centerOffset,
+        right: "uset",
+        bottom: "uset",
+      };
+  }
+};
+
+export const getOffsetNumberResult = (
+  place: TourItemPlacement,
+  value: number
+) => {
+  switch (place) {
+    case "top":
+    case "top-start":
+    case "top-end":
+      return value * -1;
+    case "right":
+    case "right-start":
+    case "right-end":
+      return value;
+    case "bottom":
+    case "bottom-start":
+    case "bottom-end":
+      return value;
+    case "left":
+    case "left-start":
+    case "left-end":
+      return value * -1;
+  }
 };

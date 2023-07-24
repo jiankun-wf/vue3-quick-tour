@@ -24,7 +24,8 @@ import {
   ArrowRect,
   MaskRectReactive,
   type Nullable,
-  TourStep,
+  type TourStep,
+  type TourProps,
 } from "../types";
 // utils
 import { useTourTransition, useTourMaskSetting } from "../hooks";
@@ -158,11 +159,11 @@ export const Tour = defineComponent({
     );
 
     onMounted(() => {
-      mount({ id: 'tour-dialog' });
+      mount({ id: "tour-dialog" });
     });
 
     onUnmounted(() => {
-      unMount({ id: 'tour-dialog' });
+      unMount({ id: "tour-dialog" });
     });
 
     expose({
@@ -177,10 +178,10 @@ export const Tour = defineComponent({
           <Transition
             {...(unref(__transition) as any)}
             css={false}
-            onAfterEnter={emit.bind(null, 'opened')}
+            onAfterEnter={emit.bind(null, "opened")}
             onAfterLeave={() => {
               restRect();
-              emit('closed');
+              emit("closed");
             }}
           >
             {unref(show) && (
@@ -210,6 +211,12 @@ export const Tour = defineComponent({
                         <div
                           class={`${props.classPrefix}-tour-arrow`}
                           ref={(_ref) => (arrowRef.value = _ref as Element)}
+                          style={{
+                            top: `${unref(arrowRect)?.top}px`,
+                            left: `${unref(arrowRect)?.left}px`,
+                            right: `${unref(arrowRect)?.right}px`,
+                            bottom: `${unref(arrowRect)?.bottom}px`,
+                          }}
                         ></div>
                       )}
                       <div class={`${props.classPrefix}-tour-inner`}>

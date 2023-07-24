@@ -74,7 +74,6 @@ export const useTourTransition = (args: TourResolverCoreArgument) => {
       offsetX,
       offsetY
     );
-
     screenRect.value = screen;
     arrowRect.value = arrow;
   };

@@ -14,7 +14,7 @@ export interface TourProps {
   dialogShowClose?: boolean;
   modalTransition?: TransitionLifeCycleProps;
   maskTransition?: TransitionLifeCycleProps;
-  themeOverrides?: GlobalThemeOverrides;
+  globalThemeOverrides?: GlobalThemeOverrides;
 }
 
 // 每步的配置
@@ -108,6 +108,9 @@ export interface GlobalThemeOverrides {
     primaryColor?: string;
     height?: string;
   };
+  arrow?: {
+    size: number;
+  };
 }
 
 export type MaskPositions = "left" | "top" | "right" | "bottom" | "center";
@@ -130,9 +133,11 @@ export interface TragetRect extends RectItem {
 // 主屏幕显示内容rect
 export interface ScreenRect extends Pick<RectItem, "top" | "left"> {}
 // 箭头显示rect
-export interface ArrowRect extends Pick<RectItem, "top" | "left"> {
-  direction: string;
-  size: number;
+export interface ArrowRect {
+  right?: number;
+  bottom?: number;
+  top?: number;
+  left?: number;
 }
 
 // 总Rect Map
