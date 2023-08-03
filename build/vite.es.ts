@@ -20,6 +20,6 @@ export default defineConfig({
         },
       },
     },
-    outDir: "es",
+    outDir: "release/es",
   },
 });

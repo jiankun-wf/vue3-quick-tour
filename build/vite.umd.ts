@@ -20,6 +20,6 @@ export default defineConfig({
         },
       },
     },
-    outDir: "dist",
+    outDir: "release/dist",
   },
 });

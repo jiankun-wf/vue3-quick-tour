@@ -1,0 +1,34 @@
+{
+  "name": "vue3-quick-tour",
+  "version": "1.3.0",
+  "description": "A vue3 component reslove fullscreen tour",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "types": "types/index.d.ts",
+  "unpkg": "dist/index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "vue3",
+    "typescript",
+    "tour"
+  ],
+  "author": "jiankun wang",
+  "license": "ISC",
+  "dependencies": {
+    "vue": "^3.2.45"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jiankun-wf/vue3-quick-tour"
+  },
+  "devDependencies": {
+    "@floating-ui/dom": "^1.2.5",
+    "css-render": "^0.15.12",
+    "vite": "^4.1.0"
+  }
+}

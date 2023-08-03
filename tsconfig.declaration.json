@@ -25,7 +25,7 @@
       "noImplicitReturns": false,
       "allowUnusedLabels": true,
       "allowUnreachableCode": true,
-      "outDir": "types"
+      "outDir": "release/types"
     },
     "include": ["package/**/*.ts", "package/**/*.d.ts", "package/**/*.tsx"],
     "references": [{ "path": "./tsconfig.node.json" }]
