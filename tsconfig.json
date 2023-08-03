@@ -16,6 +16,6 @@
     "noEmit": true,
     "declaration": true
   },
-  "include": ["package/**/*.ts", "package/**/*.d.ts", "package/**/*.tsx", "package/**/*.vue", "demo/App.tsx", "demo/main.ts"],
+  "include": ["package/**/*.ts", "package/**/*.d.ts", "package/**/*.tsx", "package/**/*.vue", "demo/main.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

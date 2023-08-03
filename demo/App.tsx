@@ -11,9 +11,7 @@ const steps: TourStep[] = [
     el: () => document.getElementById("info-btn") as HTMLElement,
     title: "平凡之路",
     message: "这是一个很普通的常规渲染",
-    mask: {
-      color: "rgba(0, 0, 0, .8)",
-    },
+    mask: false,
     placement: "top",
   },
   {
@@ -47,9 +45,7 @@ const steps: TourStep[] = [
         default: () => "抱歉，不需要标题",
       }
     ),
-    mask: {
-      color: "rgba(0, 0, 0, .8)",
-    },
+    mask: false,
     placement: "right",
   },
   {
@@ -79,7 +75,7 @@ const steps: TourStep[] = [
     mask: {
       color: "rgba(0, 0, 0, .8)",
     },
-    placement: 'bottom-end',
+    placement: "right-end",
   },
 ];
 
@@ -95,35 +91,27 @@ export default defineComponent({
     };
     return () => (
       <div>
-        <NButton
-          type="default"
-          id="open-tour"
-          onClick={handleOpenTour}
-          style="margin-bottom: 20px"
-        >
-          开始吧
-        </NButton>
-        <NButton
-          style={{ transform: "translate(300px,100px)" }}
-          id="info-btn"
-          type="info"
-        >
-          第一步
-        </NButton>
-        <NButton
-          style={{ transform: "translate(600px,600px)" }}
-          id="success-btn"
-          type="success"
-        >
-          第二步
-        </NButton>
-        <NButton
-          style={{ transform: "translate(1000px,100px)" }}
-          id="warning-btn"
-          type="warning"
-        >
-          第三部
-        </NButton>
+        <div id="open-tour" style={{ display: 'inline-block' }}>
+          <NButton
+            type="default"
+            onClick={handleOpenTour}
+            style="margin: 20px"
+          >
+            开始吧
+          </NButton>
+        </div>
+
+        <div style={{ transform: "translate(300px,100px)", display: 'inline-block' }} id="info-btn">
+          <NButton type="info">第一步</NButton>
+        </div>
+
+        <div style={{ transform: "translate(600px,600px)", display: 'inline-block' }} id="success-btn">
+          <NButton type="success">第二步</NButton>
+        </div>
+
+        <div style={{ transform: "translate(1000px,100px)", display: 'inline-block' }} id="warning-btn">
+          <NButton type="warning">第三部</NButton>
+        </div>
         {/* <NButton style={{ transform: 'translate(900px,0px)' }}  id="error-btn" type="error">
           第四部
         </NButton> */}
@@ -136,30 +124,30 @@ export default defineComponent({
           current={unref(current)}
           onUpdate:current={(val) => (current.value = val)}
           onOpen={() => {
-            console.log('open')
+            console.log("open");
           }}
           onOpened={() => {
-            console.log('opened')
+            console.log("opened");
           }}
           onClose={() => {
-            console.log('close')
+            console.log("close");
           }}
           onClosed={() => {
-            console.log('closed')
+            console.log("closed");
           }}
           onNext={() => {
-            console.log('next');
+            console.log("next");
           }}
-          padding={{ x: 8, y: 6 }}
+          padding={12}
           globalThemeOverrides={{
             common: {
-              primaryColor: 'rgb(238, 79, 18)', // 主题色
-              duration: 400, // 动画过渡时长
+              primaryColor: "rgb(238, 79, 18)", // 主题色
+              duration: 300, // 动画过渡时长
               // bezier: 'linear', // 动画表现曲线
-              borderRadius: '8px'
+              borderRadius: "4px",
             },
             mask: {
-              duration: 400, 
+              duration: 300,
             },
           }}
         />

@@ -12,7 +12,6 @@ export const TourModalClose = defineComponent({
       <svg
         onClick={handleClick}
         xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
         viewBox="64 64 896 896"
         focusable="false"
         data-icon="close"

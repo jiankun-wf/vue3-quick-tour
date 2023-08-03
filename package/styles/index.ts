@@ -51,6 +51,8 @@ export const createDialogStyle = (
       borderRadius: "var(--tour-border-radius)",
       transition: "all var(--tour-duration) var(--tour-bezier)",
       color: "var(--tour-text-color)",
+      boxShadow:
+        "0 3px 6px -4px rgba(0, 0, 0, .12), 0 6px 16px 0 rgba(0, 0, 0, .08), 0 9px 28px 8px rgba(0, 0, 0, .05)",
     }),
     [
       c(`&.css-vars-${cssId}`, () => cssVars),
@@ -66,9 +68,8 @@ export const createDialogStyle = (
               position: "absolute",
               display: "block",
               pointerEvents: "none",
-              width: "16px",
-              height: "16px",
-              overflow: "hidden",
+              width: "12px",
+              height: "12px",
             },
             [
               c(`&:before`, {
@@ -76,24 +77,11 @@ export const createDialogStyle = (
                 bottom: "0",
                 insetInlineStart: "0",
                 zIndex: "1",
-                width: "16px",
-                height: "8px",
+                width: "calc(6px * 1.414)",
+                height: "calc(6px * 1.414)",
                 background: "#FFF",
-                clipPath: `path('M 0 8 A 4 4 0 0 0 2.82842712474619 6.82842712474619 L 6.585786437626905 3.0710678118654755 A 2 2 0 0 1 9.414213562373096 3.0710678118654755 L 13.17157287525381 6.82842712474619 A 4 4 0 0 0 16 8 Z')`,
                 content: "''",
-              }),
-              c(`&:after`, {
-                content: "''",
-                position: "absolute",
-                width: "9px",
-                height: "9px",
-                bottom: "0",
-                insetInline: "0px",
-                margin: "auto",
-                borderRadius: "2px",
-                transform: "translateY(50%) rotate(-135deg)",
-                boxShadow: "2px 2px 5px rgba(0,0,0,.05)",
-                zIndex: "0",
+                transform: "rotate(45deg)",
               }),
             ]
           ),

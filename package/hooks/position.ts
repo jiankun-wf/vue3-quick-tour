@@ -135,10 +135,8 @@ export const getScreenRect = async (
     offset: { x: offset_x, y: offset_y } = {},
     arrow: { x: arrowX, y: arrowY, centerOffset: arrow_center_offset } = {},
   } = middlewareData;
-  defaultScreenRect.left =
-    x + getOffsetNumberResult(_resultPlacement, offset_x ?? 0);
-  defaultScreenRect.top =
-    y + getOffsetNumberResult(_resultPlacement, offset_y ?? 0);
+  defaultScreenRect.left = x + (offset_x ?? 0 / 1.414);
+  defaultScreenRect.top = y + (offset_y ?? 0 / 1.414);
 
   return {
     screen: defaultScreenRect,
@@ -153,67 +151,47 @@ export const getScreenRect = async (
 const getArrowRectPosition = (
   place: TourItemPlacement,
   { x, y, centerOffset }: { x: number; y: number; centerOffset: number }
-) => {
+): ArrowRect => {
   switch (place) {
     case "top":
     case "top-start":
     case "top-end":
       return {
-        bottom: -16,
-        left: x - centerOffset,
-        top: "uset",
-        right: "uset",
+        bottom: `${-8}px`,
+        left: `${x - centerOffset}px`,
+        top: "auto",
+        right: "auto",
+        rotate: "180deg",
       };
     case "bottom":
     case "bottom-start":
     case "bottom-end":
       return {
-        top: -16,
-        left: x - centerOffset,
+        top: `${-8}px`,
+        left: `${x - centerOffset}px`,
         right: "uset",
         bottom: "uset",
+        rotate: "0deg",
       };
     case "left":
     case "left-start":
     case "left-end":
       return {
-        right: -16,
-        top: y - centerOffset,
-        left: "uset",
-        bottom: "uset",
+        right: `${-8}px`,
+        top: `${y - centerOffset}px`,
+        left: "auto",
+        bottom: "auto",
+        rotate: "30deg",
       };
     case "right":
     case "right-start":
     case "right-end":
       return {
-        left: -16,
-        top: y - centerOffset,
-        right: "uset",
-        bottom: "uset",
+        left: `${-8}px`,
+        top: `${y - centerOffset}px`,
+        right: "auto",
+        bottom: "auto",
+        rotate: "270deg",
       };
-  }
-};
-
-export const getOffsetNumberResult = (
-  place: TourItemPlacement,
-  value: number
-) => {
-  switch (place) {
-    case "top":
-    case "top-start":
-    case "top-end":
-      return value * -1;
-    case "right":
-    case "right-start":
-    case "right-end":
-      return value;
-    case "bottom":
-    case "bottom-start":
-    case "bottom-end":
-      return value;
-    case "left":
-    case "left-start":
-    case "left-end":
-      return value * -1;
   }
 };

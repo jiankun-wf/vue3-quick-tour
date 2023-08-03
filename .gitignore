@@ -12,6 +12,7 @@ dist
 dist-ssr
 es
 lib
+types
 *.local
 
 # Editor directories and files

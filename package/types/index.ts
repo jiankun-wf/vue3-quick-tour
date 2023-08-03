@@ -134,10 +134,11 @@ export interface TragetRect extends RectItem {
 export interface ScreenRect extends Pick<RectItem, "top" | "left"> {}
 // 箭头显示rect
 export interface ArrowRect {
-  right?: number;
-  bottom?: number;
-  top?: number;
-  left?: number;
+  right?: string;
+  bottom?: string;
+  top?: string;
+  left?: string;
+  rotate: string;
 }
 
 // 总Rect Map

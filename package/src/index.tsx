@@ -11,6 +11,7 @@ import {
   onUnmounted,
   Transition,
   isVNode,
+  CSSProperties,
 } from "vue";
 
 // component
@@ -211,12 +212,7 @@ export const Tour = defineComponent({
                         <div
                           class={`${props.classPrefix}-tour-arrow`}
                           ref={(_ref) => (arrowRef.value = _ref as Element)}
-                          style={{
-                            top: `${unref(arrowRect)?.top}px`,
-                            left: `${unref(arrowRect)?.left}px`,
-                            right: `${unref(arrowRect)?.right}px`,
-                            bottom: `${unref(arrowRect)?.bottom}px`,
-                          }}
+                          style={{...unref(arrowRect)}}
                         ></div>
                       )}
                       <div class={`${props.classPrefix}-tour-inner`}>
