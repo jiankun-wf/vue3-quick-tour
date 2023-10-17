@@ -29,7 +29,11 @@ import {
   type TourProps,
 } from "../types";
 // utils
-import { useTourTransition, useTourMaskSetting, useTourButtonSetting } from "../hooks";
+import {
+  useTourTransition,
+  useTourMaskSetting,
+  useTourButtonSetting,
+} from "../hooks";
 import { defaultMaskRect } from "../hooks/position";
 import { useTourModalTransition } from "../hooks/transition";
 //   styles
@@ -97,9 +101,12 @@ export const Tour = defineComponent({
       useTourMaskSetting(getCurrentStep, props, show);
 
     // 获取button---config
-    
-    const { getCurrentStepButtonProps } = useTourButtonSetting(getCurrentStep, props);
-    
+
+    const { getCurrentStepButtonProps } = useTourButtonSetting(
+      getCurrentStep,
+      props
+    );
+
     // css-vars
     const dotStyleVars = getDotStyleVars(props.globalThemeOverrides);
     const modalStyleVars = getModalStyleVars(props.globalThemeOverrides);
@@ -202,6 +209,13 @@ export const Tour = defineComponent({
                 ref={(_ref) => (screenRef.value = _ref as Element)}
               >
                 <div class={`${props.classPrefix}-tour-content`}>
+                  {props.arrow && (
+                    <div
+                      class={`${props.classPrefix}-tour-arrow`}
+                      ref={(_ref) => (arrowRef.value = _ref as Element)}
+                      style={{ ...unref(arrowRect) }}
+                    ></div>
+                  )}
                   {slots.default ? (
                     renderSlot(slots, "default", {
                       close: closeTour.bind(null),
@@ -214,13 +228,6 @@ export const Tour = defineComponent({
                     })
                   ) : (
                     <>
-                      {props.arrow && (
-                        <div
-                          class={`${props.classPrefix}-tour-arrow`}
-                          ref={(_ref) => (arrowRef.value = _ref as Element)}
-                          style={{ ...unref(arrowRect) }}
-                        ></div>
-                      )}
                       <div class={`${props.classPrefix}-tour-inner`}>
                         {slots.close ? (
                           renderSlot(slots, "close", {

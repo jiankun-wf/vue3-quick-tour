@@ -181,7 +181,7 @@ const getArrowRectPosition = (
         top: `${y - centerOffset}px`,
         left: "auto",
         bottom: "auto",
-        rotate: "30deg",
+        rotate: "0",
       };
     case "right":
     case "right-start":

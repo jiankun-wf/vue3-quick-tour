@@ -3,7 +3,7 @@ import { NButton, NGradientText } from "naive-ui";
 import { type TourStep } from "../package/index";
 import { Tour } from "../package/index";
 // import { Tour } from '../es/index';
-// import { Tour, TourStep } from 'vue3-quick-tour'
+// import { Tour, type TourStep } from 'vue3-quick-tour'
 import { ref } from "vue";
 
 const steps: TourStep[] = [
@@ -14,7 +14,7 @@ const steps: TourStep[] = [
     mask: {
       color: 'rgba(0, 0, 0, .3)',
     },
-    placement: "top",
+    placement: "left",
     buttonProps: {
       prev: { text: '向前' },
       next: { text: '往后' },
@@ -160,7 +160,7 @@ export default defineComponent({
 
           buttonProps={{
             finish: { text: '我不知道' },
-            prev: { text: '往前看' },
+            prev: { text: `${unref(current) - 1 <=0 ? '往前' : `${unref(current) -1}步`}` },
             next: { text: '往后看' }
           }}
         />
