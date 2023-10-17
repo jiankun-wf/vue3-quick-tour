@@ -173,3 +173,20 @@ export const useTourMaskSetting = (
 
   return { getMaskColor, getMaskWrapperStyle, getMaskShow };
 };
+
+export const useTourButtonSetting = (
+  getCurrentStep: ComputedRef<TourStep>,
+  props: Record<string, any>
+) => {
+  const getCurrentStepButtonProps = computed(() => {
+    const { buttonProps } = unref(getCurrentStep) || {};
+
+    if (typeof buttonProps === "object") {
+      return { ...props.buttonProps, ...buttonProps };
+    }
+
+    return props.buttonProps ?? {};
+  });
+
+  return { getCurrentStepButtonProps };
+};

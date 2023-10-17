@@ -1,5 +1,6 @@
 import { PropType } from "vue";
 import {
+  ButtonsConfig,
   GlobalThemeOverrides,
   MaskConfig,
   TourStep,
@@ -54,6 +55,10 @@ export const createTourProps = () => {
     },
     globalThemeOverrides: {
       type: Object as PropType<GlobalThemeOverrides>,
+      default: undefined,
+    },
+    buttonProps: {
+      type: Object as PropType<ButtonsConfig>,
       default: undefined,
     },
   };

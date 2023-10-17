@@ -11,8 +11,15 @@ const steps: TourStep[] = [
     el: () => document.getElementById("info-btn") as HTMLElement,
     title: "平凡之路",
     message: "这是一个很普通的常规渲染",
-    mask: false,
+    mask: {
+      color: 'rgba(0, 0, 0, .3)',
+    },
     placement: "top",
+    buttonProps: {
+      prev: { text: '向前' },
+      next: { text: '往后' },
+      finish: { text: '知道' }
+    }
   },
   {
     el: () => document.getElementById("success-btn") as HTMLElement,
@@ -138,7 +145,7 @@ export default defineComponent({
           onNext={() => {
             console.log("next");
           }}
-          padding={12}
+          padding={{ x: 10, y: 8 }}
           globalThemeOverrides={{
             common: {
               primaryColor: "rgb(238, 79, 18)", // 主题色
@@ -149,6 +156,12 @@ export default defineComponent({
             mask: {
               duration: 300,
             },
+          }}
+
+          buttonProps={{
+            finish: { text: '我不知道' },
+            prev: { text: '往前看' },
+            next: { text: '往后看' }
           }}
         />
       </div>

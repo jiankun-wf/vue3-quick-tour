@@ -1,6 +1,17 @@
 import { CSSProperties, Ref, VNode } from "vue";
 import { type Placement as _PlaceMent } from "@floating-ui/dom";
 
+// button---types
+export type ButtonTypes = "prev" | "finish" | "next";
+// button--config
+export type ButtonSignleProp = {
+  text: string;
+};
+
+export type ButtonsConfig = {
+  [key in ButtonTypes]?: ButtonSignleProp;
+};
+
 // 漫游式引导 props
 export interface TourProps {
   show?: boolean;
@@ -15,6 +26,7 @@ export interface TourProps {
   modalTransition?: TransitionLifeCycleProps;
   maskTransition?: TransitionLifeCycleProps;
   globalThemeOverrides?: GlobalThemeOverrides;
+  buttonProps?: ButtonsConfig; // 各个按钮配置
 }
 
 // 每步的配置
@@ -23,6 +35,7 @@ export interface MaskConfig {
   color?: string;
   style?: Partial<CSSProperties>;
 }
+
 export interface TourStep {
   el?: null | (() => HTMLElement); // 绑定的element 此项为null时，弹出窗口居中显示
   title?: string; // 标题
@@ -30,6 +43,9 @@ export interface TourStep {
   placement?: TourItemPlacement; // 位置 TODO：位置算法；
   beforeEnter?: (next: (current: number, rect: TourRect) => void) => void; // 进入之前的判断 next do (TODO)
   mask?: boolean | MaskConfig; // 此步是否有遮罩？简单的true/false时配置跟着整体走；
+  buttonProps?: {
+    [key in ButtonTypes]?: ButtonSignleProp; // 按钮配置-----目前只支持文本
+  };
 }
 
 // 核心处理函数 core argument

@@ -29,7 +29,7 @@ import {
   type TourProps,
 } from "../types";
 // utils
-import { useTourTransition, useTourMaskSetting } from "../hooks";
+import { useTourTransition, useTourMaskSetting, useTourButtonSetting } from "../hooks";
 import { defaultMaskRect } from "../hooks/position";
 import { useTourModalTransition } from "../hooks/transition";
 //   styles
@@ -42,6 +42,7 @@ import {
 import { createDialogStyle } from "../styles";
 // props
 import { createTourProps } from "../props";
+import { ControlButton } from "./Control";
 
 export const Tour = defineComponent({
   name: "TourQuick",
@@ -94,6 +95,11 @@ export const Tour = defineComponent({
     // 获取当前mask配置
     const { getMaskColor, getMaskWrapperStyle, getMaskShow } =
       useTourMaskSetting(getCurrentStep, props, show);
+
+    // 获取button---config
+    
+    const { getCurrentStepButtonProps } = useTourButtonSetting(getCurrentStep, props);
+    
     // css-vars
     const dotStyleVars = getDotStyleVars(props.globalThemeOverrides);
     const modalStyleVars = getModalStyleVars(props.globalThemeOverrides);
@@ -212,7 +218,7 @@ export const Tour = defineComponent({
                         <div
                           class={`${props.classPrefix}-tour-arrow`}
                           ref={(_ref) => (arrowRef.value = _ref as Element)}
-                          style={{...unref(arrowRect)}}
+                          style={{ ...unref(arrowRect) }}
                         ></div>
                       )}
                       <div class={`${props.classPrefix}-tour-inner`}>
@@ -256,37 +262,15 @@ export const Tour = defineComponent({
                             style={unref(dotStyleVars)}
                           ></TourDot>
                           {/* 上一步 */}
-                          <div>
-                            {unref(current) > 0 && (
-                              <button
-                                class="tour-prev-button"
-                                title="上一步"
-                                onClick={prev.bind(null)}
-                              >
-                                上一步
-                              </button>
-                            )}
-                            {/* 下一步 */}
-                            {unref(current) < props.steps.length - 1 && (
-                              <button
-                                class="tour-next-button"
-                                title="下一步"
-                                onClick={next.bind(null)}
-                              >
-                                下一步
-                              </button>
-                            )}
 
-                            {unref(current) === props.steps.length - 1 && (
-                              <button
-                                class="tour-finish-button"
-                                title="我知道了"
-                                onClick={handleFinish}
-                              >
-                                我知道了
-                              </button>
-                            )}
-                          </div>
+                          <ControlButton
+                            onFinish-click={handleFinish}
+                            onPrev-click={prev}
+                            onNext-click={next}
+                            current={unref(current)}
+                            buttonProps={unref(getCurrentStepButtonProps)}
+                            steps={props.steps}
+                          />
                         </div>
                       </div>
                     </>
