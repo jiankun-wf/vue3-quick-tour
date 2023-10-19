@@ -52,7 +52,6 @@ const steps: TourStep[] = [
         default: () => "抱歉，不需要标题",
       }
     ),
-    mask: false,
     placement: "right",
   },
   {
@@ -98,11 +97,10 @@ export default defineComponent({
     };
     return () => (
       <div>
-        <div id="open-tour" style={{ display: 'inline-block' }}>
+        <div id="open-tour" style={{ display: 'inline-block', boxSizing: 'border-box' }}>
           <NButton
             type="default"
             onClick={handleOpenTour}
-            style="margin: 20px"
           >
             开始吧
           </NButton>
@@ -163,7 +161,17 @@ export default defineComponent({
             prev: { text: `${unref(current) - 1 <=0 ? '往前' : `${unref(current) -1}步`}` },
             next: { text: '往后看' }
           }}
-        />
+        >
+          {{
+            default: ({ prev, next, close, last }: any) => (
+              <div style={{ padding: '16px' }}>
+                <div style={{ fontSize: '16px', marginBottom: '12px' }}>这是完全自己定义的内容！！</div>
+                <div style={{ color: 'red' }} onClick={prev}>上一步</div><div style={{ color: 'green' }} onClick={next}>下一步</div>
+                <div style={{ color: 'red' }} onClick={last}>最后一步</div><div style={{ color: 'green' }} onClick={close}>关闭</div>
+              </div>
+            )
+          }}
+        </Tour>
       </div>
     );
   },

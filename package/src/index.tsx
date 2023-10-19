@@ -209,7 +209,7 @@ export const Tour = defineComponent({
                 ref={(_ref) => (screenRef.value = _ref as Element)}
               >
                 <div class={`${props.classPrefix}-tour-content`}>
-                  {props.arrow && (
+                  {props.arrow && unref(getCurrentStep).el && (
                     <div
                       class={`${props.classPrefix}-tour-arrow`}
                       ref={(_ref) => (arrowRef.value = _ref as Element)}

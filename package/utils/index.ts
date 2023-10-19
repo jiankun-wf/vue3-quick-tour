@@ -39,7 +39,7 @@ export function isUnDef(val: unknown): val is Nullable<undefined> {
 }
 // 不为负数
 export function getNoMinusNumber(num: number): number {
-  return num;
+  return num < 0 ? 0 : num;
 }
 
 //

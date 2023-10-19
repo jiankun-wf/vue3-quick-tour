@@ -91,6 +91,7 @@ export const TourMask = defineComponent({
                       width={props.maskRect.center!.width}
                       height={props.maskRect.center!.height}
                       class={`${props.classPrefix}-tour-mask--placeholder`}
+                      id="tour-mask-center"
                     ></rect>
                   </mask>
                 </defs>

@@ -35,29 +35,28 @@
 2. css-render 不生成 css 文件，也无需引入。
 3. transition-hooks 自定义遮罩动画、弹出框动画。
 4. 可配置自定义主题，完美融入您的系统。
-5. 12个定位可选，也支持自动定位。
- 
-feature：
-6. 自定义位置...
-7. dark mode...
+5. 12 个定位可选，也支持自动定位。
+
+feature： 6. 自定义位置... 7. dark mode...
 
 ### 2. props
 
-|         属性         |               传值                |  默认值   |             说明             |
-| :------------------: | :-------------------------------: | :-------: | :--------------------------: |
-|        steps         |            TourStep[]             |    [ ]    |       每步的配置，必填       |
-|     classPrefix      |              string               |  "quick"  |       全局 class 前缀        |
-|         mask         |       boolean / MaskConfig        |   true    |        全局 mask 配置        |
-|   v-model:current    |              number               |     0     |   当前步骤，支持非受控模式   |
-|     v-model:show     |              boolean              |   false   | 是否展示引导，支持非受控模式 |
-|        arrow         |              boolean              |   true    |         是否展示箭头         |
-|       padding        | number / { x: number, y: number } |     5     |    指引元素的水平垂直边距    |
-|      maskZIndex      |          number / string          |   1001    |     遮罩层的 z-index 值      |
-|   dialogShowClose    |              boolean              |   true    |      是否展示关闭 icon       |
-|   modalTransition    |     TransitionLifeCycleProps      | undefined |        自定义弹框动画        |
-|    maskTransition    |     TransitionLifeCycleProps      | undefined |        自定义遮罩动画        |
-|    maskTransition    |     TransitionLifeCycleProps      | undefined |        自定义遮罩动画        |
-| globalThemeOverrides |       GlobalThemeOverrides        |     -     |        自定义主题配置        |
+|         属性         |                                    传值                                    |  默认值   |                           说明                           |
+| :------------------: | :------------------------------------------------------------------------: | :-------: | :------------------------------------------------------: |
+|        steps         |                                 TourStep[]                                 |    [ ]    |                     每步的配置，必填                     |
+|     classPrefix      |                                   string                                   |  "quick"  |                     全局 class 前缀                      |
+|         mask         |                            boolean / MaskConfig                            |   true    |                      全局 mask 配置                      |
+|   v-model:current    |                                   number                                   |     0     |                 当前步骤，支持非受控模式                 |
+|     v-model:show     |                                  boolean                                   |   false   |               是否展示引导，支持非受控模式               |
+|        arrow         |                                  boolean                                   |   true    |                       是否展示箭头                       |
+|       padding        |                     number / { x: number, y: number }                      |     5     |                  指引元素的水平垂直边距                  |
+|      maskZIndex      |                              number / string                               |   1001    |                   遮罩层的 z-index 值                    |
+|   dialogShowClose    |                                  boolean                                   |   true    |                    是否展示关闭 icon                     |
+|   modalTransition    |                          TransitionLifeCycleProps                          | undefined |                      自定义弹框动画                      |
+|    maskTransition    |                          TransitionLifeCycleProps                          | undefined |                      自定义遮罩动画                      |
+|    maskTransition    |                          TransitionLifeCycleProps                          | undefined |                      自定义遮罩动画                      |
+| globalThemeOverrides |                            GlobalThemeOverrides                            |     -     |                      自定义主题配置                      |
+|     buttonProps      | { last: { text: string }, prev: { text: string }, next: { text: string } } |     -     | 上一步、下一步、最后一步的按钮配置（目前只支持按钮文本） |
 
 ### 3. 详细配置说明
 

@@ -59,11 +59,21 @@ export const getMaskRect = (
     };
     return maskRect;
   }
+
+  const centerTop = getNoMinusNumber(targetRect.top - y);
+  const centerLeft = getNoMinusNumber(targetRect.left - x);
+
   maskRect.center = {
-    top: getNoMinusNumber(targetRect.top - y),
-    left: getNoMinusNumber(targetRect.left - x),
-    width: getNoMinusNumber(targetRect.width + 2 * x),
-    height: getNoMinusNumber(targetRect.height + 2 * y),
+    top: centerTop,
+    left: centerLeft,
+    width:
+      centerLeft === 0
+        ? getNoMinusNumber(targetRect.width + x)
+        : getNoMinusNumber(targetRect.width + 2 * x),
+    height:
+      centerTop === 0
+        ? getNoMinusNumber(targetRect.height + y)
+        : getNoMinusNumber(targetRect.height + 2 * y),
   };
   maskRect.top = {
     top: 0,
