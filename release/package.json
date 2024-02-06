@@ -1,6 +1,6 @@
 {
   "name": "vue3-quick-tour",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "A vue3 component reslove fullscreen tour",
   "main": "lib/index.js",
   "module": "es/index.js",

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build:lib": "vue-tsc && node --loader ts-node/esm ./build/build.ts && tsc -p ./tsconfig.declaration.json",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {

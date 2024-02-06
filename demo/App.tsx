@@ -12,14 +12,14 @@ const steps: TourStep[] = [
     title: "平凡之路",
     message: "这是一个很普通的常规渲染",
     mask: {
-      color: 'rgba(0, 0, 0, .3)',
+      color: "rgba(0, 0, 0, .3)",
     },
     placement: "left",
     buttonProps: {
-      prev: { text: '向前' },
-      next: { text: '往后' },
-      finish: { text: '知道' }
-    }
+      prev: { text: "向前" },
+      next: { text: "往后" },
+      finish: { text: "知道" },
+    },
   },
   {
     el: () => document.getElementById("success-btn") as HTMLElement,
@@ -97,24 +97,42 @@ export default defineComponent({
     };
     return () => (
       <div>
-        <div id="open-tour" style={{ display: 'inline-block', boxSizing: 'border-box' }}>
-          <NButton
-            type="default"
-            onClick={handleOpenTour}
-          >
+        <div
+          id="open-tour"
+          style={{ display: "inline-block", boxSizing: "border-box" }}
+        >
+          <NButton type="default" onClick={handleOpenTour}>
             开始吧
           </NButton>
         </div>
 
-        <div style={{ transform: "translate(300px,100px)", display: 'inline-block' }} id="info-btn">
+        <div
+          style={{
+            transform: "translate(300px,100px)",
+            display: "inline-block",
+          }}
+          id="info-btn"
+        >
           <NButton type="info">第一步</NButton>
         </div>
 
-        <div style={{ transform: "translate(600px,600px)", display: 'inline-block' }} id="success-btn">
+        <div
+          style={{
+            transform: "translate(600px,600px)",
+            display: "inline-block",
+          }}
+          id="success-btn"
+        >
           <NButton type="success">第二步</NButton>
         </div>
 
-        <div style={{ transform: "translate(1000px,100px)", display: 'inline-block' }} id="warning-btn">
+        <div
+          style={{
+            transform: "translate(1000px,100px)",
+            display: "inline-block",
+          }}
+          id="warning-btn"
+        >
           <NButton type="warning">第三部</NButton>
         </div>
         {/* <NButton style={{ transform: 'translate(900px,0px)' }}  id="error-btn" type="error">
@@ -155,21 +173,36 @@ export default defineComponent({
               duration: 300,
             },
           }}
-
           buttonProps={{
-            finish: { text: '我不知道' },
-            prev: { text: `${unref(current) - 1 <=0 ? '往前' : `${unref(current) -1}步`}` },
-            next: { text: '往后看' }
+            finish: { text: "我不知道" },
+            prev: {
+              text: `${
+                unref(current) - 1 <= 0 ? "往前" : `${unref(current) - 1}步`
+              }`,
+            },
+            next: { text: "往后看" },
           }}
         >
           {{
             default: ({ prev, next, close, last }: any) => (
-              <div style={{ padding: '16px' }}>
-                <div style={{ fontSize: '16px', marginBottom: '12px' }}>这是完全自己定义的内容！！</div>
-                <div style={{ color: 'red' }} onClick={prev}>上一步</div><div style={{ color: 'green' }} onClick={next}>下一步</div>
-                <div style={{ color: 'red' }} onClick={last}>最后一步</div><div style={{ color: 'green' }} onClick={close}>关闭</div>
+              <div style={{ padding: "16px" }}>
+                <div style={{ fontSize: "16px", marginBottom: "12px" }}>
+                  这是完全自己定义的内容！！
+                </div>
+                <div style={{ color: "red" }} onClick={prev}>
+                  上一步
+                </div>
+                <div style={{ color: "green" }} onClick={next}>
+                  下一步
+                </div>
+                <div style={{ color: "red" }} onClick={last}>
+                  最后一步
+                </div>
+                <div style={{ color: "green" }} onClick={close}>
+                  关闭
+                </div>
               </div>
-            )
+            ),
           }}
         </Tour>
       </div>
