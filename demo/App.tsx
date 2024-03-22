@@ -182,29 +182,7 @@ export default defineComponent({
             },
             next: { text: "往后看" },
           }}
-        >
-          {{
-            default: ({ prev, next, close, last }: any) => (
-              <div style={{ padding: "16px" }}>
-                <div style={{ fontSize: "16px", marginBottom: "12px" }}>
-                  这是完全自己定义的内容！！
-                </div>
-                <div style={{ color: "red" }} onClick={prev}>
-                  上一步
-                </div>
-                <div style={{ color: "green" }} onClick={next}>
-                  下一步
-                </div>
-                <div style={{ color: "red" }} onClick={last}>
-                  最后一步
-                </div>
-                <div style={{ color: "green" }} onClick={close}>
-                  关闭
-                </div>
-              </div>
-            ),
-          }}
-        </Tour>
+        ></Tour>
       </div>
     );
   },

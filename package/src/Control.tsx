@@ -1,4 +1,4 @@
-import { type PropType, defineComponent, unref, watch } from "vue";
+import { type PropType, defineComponent, watch } from "vue";
 import { type ButtonsConfig, type TourStep } from "../types";
 
 export const ControlButton = defineComponent({
